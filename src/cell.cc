@@ -6,7 +6,8 @@ import util.position;
 
 export class Cell {
     Link* link_ = nullptr;                     // non-owning pointer
-    FirewallInfo* firewall_ = nullptr;         // non-owning pointer to firewall info
+    FirewallInfo firewall_;
+    bool hasFirewall_ = false;
 
 public:
     // ---- link operations ----
@@ -16,14 +17,14 @@ public:
     void clearLink() { link_ = nullptr; }
 
     // ---- firewall operations ----
-    bool hasFirewall() { return firewall_ != nullptr; }
-    FirewallInfo* getFirewall() { return firewall_; }
+    bool hasFirewall() { return hasFirewall_; }
+    FirewallInfo getFirewall() { return firewall_; }
 
-    void setFirewall(FirewallInfo* fw) {
+    void setFirewall(FirewallInfo fw) {
         firewall_ = fw;
     }
 
     void clearFirewall() {
-        firewall_ = nullptr;
+        hasFirewall_ = false;
     }
 };
