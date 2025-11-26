@@ -22,6 +22,7 @@ public:
 
     void setFirewall(FirewallInfo fw) {
         firewall_ = fw;
+        hasFirewall = true;
     }
 
     void clearFirewall() {
