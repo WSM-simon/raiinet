@@ -1,10 +1,13 @@
-export module util.moveresult;
+export module util.moveResult;
 
 // Forward declare Link because MoveResult references it
 export class Link;       
-import util.firewallinfo;
+import util.resultHeader;
+import util.firewallInfo;
 
 export struct MoveResult {
+    ResultHeader header;
+
     bool moved = false;
     bool battle = false;
     bool downloaded = false;

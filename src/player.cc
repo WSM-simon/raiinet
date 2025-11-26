@@ -23,6 +23,8 @@ export class Player {
 
 public:
     // ---- constructor ----
+
+    //TODO : needs to inplement initialAbilities
     Player(int id, string name,
            vector<Link> initialLinks,
            vector<unique_ptr<Ability>> initialAbilities)
