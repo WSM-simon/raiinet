@@ -4,6 +4,7 @@ import ability;
 import game;
 import player;
 import link;
+import util.linkType;
 import util.abilityParams;
 import util.abilityResult;
 
@@ -34,10 +35,13 @@ AbilityResult PolarizeAbility::apply(Game& game, Player& user, Player& opponent,
         return res;
     }
 
-//    userLink->changeLinkType();
+    if (userLink->getType == LinkType::Data) {
+        userLink->setType(LinkType::Virus);
+    } else {
+        userLink->setType(LinkType::Data);
+    }
+
     markUsed();
     res.used = true;
-    res.stateChanged = true;
-    res.affectedLinks.push_back(userLink);
     return res;
 }

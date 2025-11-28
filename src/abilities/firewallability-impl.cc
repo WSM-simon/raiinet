@@ -46,6 +46,5 @@ AbilityResult FirewallAbility::apply(Game& game, Player& user, Player& opponent,
 
     markUsed();
     res.used = true;
-    res.stateChanged = true;
     return res;
 }

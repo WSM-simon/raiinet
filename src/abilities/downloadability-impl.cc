@@ -34,17 +34,16 @@ AbilityResult DownloadAbility::apply(Game& game, Player& user, Player& opponent,
         return res;
     }
 
+    opponentLink->setRevealedToOpponent(true);
+
     if (opponentLink->isData()) {
         user.incrementDownloadedData();
     } else {
         user.incrementDownloadedViruses();
     }
 
-    opponentLink->revealToBoth();
     board.removeLink(*opponentLink);
     markUsed();
     res.used = true;
-    res.stateChanged = true;
-    res.affectedLinks.push_back(opponentLink);
     return res;
 }

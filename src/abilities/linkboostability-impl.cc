@@ -34,16 +34,14 @@ AbilityResult LinkboostAbility::apply(Game& game, Player& user, Player& opponent
         return res;
     }
 
-    if (userLink->hasLinkBoost()) {
+    if (userLink->isBoosted()) {
         res.header.success = false;
         res.header.msg = "Link already boosted.";
         return res;
     }
 
-    userLink->applyLinkBoost();
+    userLink->setBoosted(true);
     markUsed();
     res.used = true;
-    res.stateChanged = true;
-    res.affectedLinks.push_back(userLink);
     return res;
 }

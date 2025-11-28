@@ -40,10 +40,9 @@ AbilityResult ScanAbility::apply(Game& game, Player& user, Player& opponent,
         return res;
     }
 
-    opponentLink->revealToOpponent();
+    opponentLink->setRevealedToOpponent(true);
+    
     markUsed();
     res.used = true;
-    res.stateChanged = true;
-    res.affectedLinks.push_back(opponentLink);
     return res;
 }

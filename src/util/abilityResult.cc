@@ -9,10 +9,7 @@ using std::string;
 using std::vector;
 
 export struct AbilityResult {
-    ResultHeader header;   // success / error message
+    ResultHeader header;  // success / error message
 
-    bool used = false;         // ability take effect or not
-    bool stateChanged = false;
-
-    vector<Link*> affectedLinks;   // influenced link
+    bool used = false; // ability used or not
 };

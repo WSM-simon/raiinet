@@ -50,8 +50,5 @@ AbilityResult ExchangeAbility::apply(Game& game, Player& user, Player& opponent,
 
     markUsed();
     res.used = true;
-    res.stateChanged = true;
-    res.affectedLinks.push_back(userLink);
-    res.affectedLinks.push_back(opponentLink);
     return res;
 }
