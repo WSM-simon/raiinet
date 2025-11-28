@@ -1,0 +1,22 @@
+# Test proper escape - link moves off opponent's edge
+# Player 1's link escapes off bottom (row 8)
+# Using column 1 to avoid collision with opponent
+
+move b down
+move C up
+move b down
+move C up
+move b down
+move C up
+move b down
+move C up
+move b down
+move C up
+move b down
+move C up
+# b is now at row 6, col 1
+move b down
+# b should escape off row 8, Player 1 downloads their own link
+board
+
+

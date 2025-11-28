@@ -1,0 +1,17 @@
+# Test Download ability
+# Downloads an opponent's link directly
+
+# First, scan an opponent's link to reveal it
+ability 4 A
+
+move a down
+
+# Player 2's turn
+move A up
+
+# Player 1 uses Download (ability 3) on opponent's link A
+ability 3 A
+
+board
+
+

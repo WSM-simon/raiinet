@@ -1,0 +1,22 @@
+# Test server port download
+# Try to move onto opponent's server port
+
+# Move d toward opponent's server port (col 3)
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+# d should now be at row 6
+move d down
+move D up
+# d should be at row 7, col 3 (opponent's server port) - gets downloaded
+move d down
+
+board
+

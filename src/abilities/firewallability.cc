@@ -1,7 +1,7 @@
 export module firewallability;
 
 import ability;
-import game;
+import board;
 import player;
 import util.abilityParams;
 import util.abilityResult;
@@ -9,7 +9,7 @@ import util.abilityResult;
 export class FirewallAbility : public Ability {
 public:
     FirewallAbility();
-    AbilityResult apply(Game& game, Player& user, Player& opponent,
+    AbilityResult apply(Board& board, Player& user, Player& opponent,
                         AbilityParams& userParams, 
                         AbilityParams& opponentParams) override;
 };

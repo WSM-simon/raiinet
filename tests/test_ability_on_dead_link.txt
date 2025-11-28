@@ -1,0 +1,19 @@
+# Test using ability on a link that's already dead
+
+# First kill link A in battle
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+# A is now dead
+
+# Try to scan dead link A
+ability 4 A
+# Should fail or have no effect
+
+board
+
+

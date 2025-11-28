@@ -1,9 +1,8 @@
 export module util.moveResult;
 
-// Forward declare Link because MoveResult references it
-export class Link;       
 import util.resultHeader;
 import util.firewallInfo;
+import link;
 
 export struct MoveResult {
     ResultHeader header;              // Success status and message
@@ -16,6 +15,7 @@ export struct MoveResult {
     Link* attacker = nullptr;
     Link* defender = nullptr;
     Link* downloadedLink = nullptr;
+    int downloaderId = -1;            // Who gets credit for the download (1 or 2)
 
     FirewallInfo* firewall = nullptr;
 };

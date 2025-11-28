@@ -1,0 +1,24 @@
+# Test firewall ability
+# Player 1 places firewall, Player 2 walks into it
+
+# Player 1 uses Firewall (ability 2) at row 4, col 0
+ability 2 4 0
+
+# Player 1 moves
+move a down
+
+# Player 2 moves toward the firewall
+move A up
+# Player 1 just moves
+move b down
+# Player 2 continues
+move A up
+move c down
+move A up
+move d down
+# Player 2 should trigger firewall now
+move A up
+
+board
+
+

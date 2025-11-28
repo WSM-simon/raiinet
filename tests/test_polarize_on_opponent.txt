@@ -1,0 +1,8 @@
+# Test Polarize on opponent's link (should fail)
+
+ability 5 A
+# Should fail - can only polarize own links
+
+board
+
+

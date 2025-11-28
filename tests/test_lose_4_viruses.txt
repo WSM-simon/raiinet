@@ -1,0 +1,48 @@
+# Test lose condition: Download 4 viruses = lose
+# Player 1 attacks and downloads 4 of Player 2's viruses
+
+# Battle a(V1) vs A(V1) - tie goes to attacker, P1 downloads V1
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+# Battle! a wins, downloads A (V1)
+
+# Battle b(V2) vs B(V2)
+move B up
+move b down
+move B up
+move b down
+move B up
+move b down
+# Battle! b wins, downloads B (V2)
+
+# Battle c(V3) vs C(V3)
+move C up
+move c down
+move C up
+move c down
+move C up
+move c down
+# Battle! c wins, downloads C (V3)
+
+# Battle d(V4) vs D(V4)
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+# Battle! d wins, downloads D (V4)
+# Player 1 now has 4 viruses - should lose!
+
+board
+
+

@@ -1,0 +1,17 @@
+# Test that tie goes to attacker in battle
+
+# a(V1) vs A(V1) - same strength, attacker should win
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+# a at row 3, A at row 4
+move a down
+# Battle: a attacks A, tie, a wins!
+
+board
+# A should be gone, a should be at row 4
+
+

@@ -1,0 +1,19 @@
+# Test scan followed by download
+
+# Scan A
+ability 4 A
+move a down
+
+board
+# A is revealed
+
+# P2 turn
+move A up
+
+# Download the revealed A
+ability 3 A
+
+board
+# A should be downloaded
+
+

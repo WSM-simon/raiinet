@@ -1,0 +1,21 @@
+# Test Virus vs Data battle - strength matters, not type
+
+# a(V1) vs E(D1) - same strength
+move a down
+move E up
+move a right
+move E up
+move a right
+move E up
+move a right
+move E up
+move a down
+move E left
+move a down
+move E left
+move a down
+# Battle: a(V1) vs E(D1) - tie, attacker wins
+
+board
+
+

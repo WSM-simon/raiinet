@@ -1,0 +1,21 @@
+# Test moving onto opponent's server port
+# Server ports are at col 3,4 on row 0 and row 7
+# Player 1's link d starts at row 1, col 3
+
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+# d is now at row 6, col 3
+# Moving onto row 7, col 3 (opponent's server port) - opponent downloads it
+move d down
+
+board
+
+

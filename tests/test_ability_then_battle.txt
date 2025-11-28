@@ -1,0 +1,23 @@
+# Test using ability then immediately battling
+
+# Boost a
+ability 1 a
+move a down
+# a at row 2
+
+# P2 moves A
+move A up
+# A at row 6
+
+move a down
+# a at row 4
+
+move A up
+# A at row 5
+
+move a down
+# Battle: boosted a vs A
+
+board
+
+

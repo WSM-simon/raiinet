@@ -1,0 +1,15 @@
+# Test placing firewall from Player 2's perspective
+
+# Player 1 places firewall
+ability 2 3 0
+
+move a down
+
+# Player 2 places their firewall
+ability 2 4 7
+
+move A up
+
+board
+
+

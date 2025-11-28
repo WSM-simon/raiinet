@@ -1,0 +1,28 @@
+# Test boosted link escaping from edge (2 square move off board)
+
+# Get link close to edge first
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+# f at row 5
+
+move f down
+# f at row 6
+
+move F up
+
+# Now boost f
+ability 1 f
+move f down
+# f moves 2 squares from row 6 - should escape!
+
+board
+
+

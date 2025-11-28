@@ -1,9 +1,8 @@
 module firewallability;
 
 import ability;
-import game;
-import player;
 import board;
+import player;
 import cell;
 import util.abilityParams;
 import util.abilityResult;
@@ -11,7 +10,7 @@ import util.abilityResult;
 
 FirewallAbility::FirewallAbility() : Ability("Firewall", 'F') {}
 
-AbilityResult FirewallAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult FirewallAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
@@ -19,8 +18,6 @@ AbilityResult FirewallAbility::apply(Game& game, Player& user, Player& opponent,
     (void)opponentParams; // Don't need these for firewallability
 
     AbilityResult res;
-
-    Board& board = game.getBoard();
 
     if (!board.isInside(userParams.targetPos)) {
         res.header.success = false;

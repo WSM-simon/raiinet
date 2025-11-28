@@ -1,0 +1,18 @@
+# Test Scan ability - reveals opponent's link type
+# Default abilities: LFDSP (1=LinkBoost, 2=Firewall, 3=Download, 4=Scan, 5=Polarize)
+
+# Before scan - opponent's links show as ?
+board
+
+# Player 1 uses Scan (ability 4) on opponent's link A
+ability 4 A
+
+# After scan - link A should be revealed
+board
+
+# Move to end turn
+move a down
+
+board
+
+

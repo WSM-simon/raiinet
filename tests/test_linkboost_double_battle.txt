@@ -1,0 +1,23 @@
+# Test LinkBoost link moving through enemy
+# Boosted link moves 2 squares - what if enemy is in path?
+
+# Boost link d (V4)
+ability 1 d
+# d at row 1, col 3
+move d down
+# d moves 2 squares to row 3, col 3
+
+move D up
+
+move d down
+# d at row 5, col 3
+
+move D up
+# D at row 5, col 3 too? or row 4?
+
+move d down
+# d tries to move 2 squares - might hit D
+
+board
+
+

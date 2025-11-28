@@ -1,0 +1,10 @@
+# Test invalid ability index
+
+ability 0 a
+ability 6 a
+ability -1 a
+ability 99 a
+
+board
+
+

@@ -1,0 +1,16 @@
+# Test that dead links are shown differently in link info
+# With -enableExtraFeature, dead links should be red
+
+# Move links toward each other for a battle
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+# Battle! One link dies
+
+board
+
+

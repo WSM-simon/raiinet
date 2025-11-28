@@ -1,0 +1,24 @@
+# Test ability usage
+# Player 1 uses abilities
+
+# Show abilities first
+abilities
+
+# Use Scan (ability 4) on opponent's link A
+ability 4 A
+
+# Make a move to end turn
+move a down
+
+# Player 2's turn - show their abilities
+abilities
+
+# Player 2 uses LinkBoost (ability 1) on their own link A
+ability 1 A
+
+# Move the boosted link (should move 2 squares)
+move A up
+
+board
+
+

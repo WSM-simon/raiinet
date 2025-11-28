@@ -1,0 +1,9 @@
+# Test invalid direction
+
+move a north
+move a forward
+move a diagonal
+
+board
+
+

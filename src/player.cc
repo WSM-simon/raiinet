@@ -6,34 +6,27 @@ import <memory>;
 
 import link;                 // Link class
 import util.linkType;        // if needed for construction
-import util.abilityParams;   // for ability calls (optional)
-import ability;              // forward declarations inside ability module
 
 using std::string, std::vector, std::unique_ptr, std::move;
 
 export class Player {
     int id_;                             // index of the player (0..numPlayers-1)
-
-    vector<Link> links_;            // owns its 8 links
-    vector<unique_ptr<Ability>> abilities_;  // owns ability cards
-
+    vector<Link> links_;                 // owns its 8 links
     int downloadedData_ = 0;             // # of data downloaded
     int downloadedViruses_ = 0;          // # of viruses downloaded
 
 public:
-    // ---- constructor ----
+    // ---- constructors ----
+    
+    Player() : id_{-1} {}  // default constructor for array initialization
 
-    Player(int id,
-           vector<Link> initialLinks,
-           vector<unique_ptr<Ability>> initialAbilities)
+    Player(int id, vector<Link> initialLinks)
         : id_{id}
         , links_{move(initialLinks)}
-        , abilities_{move(initialAbilities)}
-    {} // transfer ownership to Player
+    {}
 
     // ---- identity ----
     int getId() { return id_; }
-    string& getName() { return name_; }
 
     // ---- links ----
     vector<Link>& getLinks() { return links_; }
@@ -43,14 +36,6 @@ public:
             if (ln.getId() == ch) return &ln;
         }
         return nullptr;
-    }
-
-    // ---- abilities ----
-    vector<unique_ptr<Ability>>& getAbilities() { return abilities_; }
-
-    Ability* getAbility(int idx) {
-        if (idx < 0 || idx >= (int)abilities_.size()) return nullptr;
-        return abilities_[idx].get(); // return the ability pointer, not the ability object
     }
 
     // ---- download tracking ----

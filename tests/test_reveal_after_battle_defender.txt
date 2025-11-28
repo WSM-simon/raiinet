@@ -1,0 +1,16 @@
+# Test that loser is revealed after battle (defender loses)
+
+# c(V3) vs B(V2) - c wins (attacker), B is revealed
+move c down
+move B up
+move c down
+move B up
+move c down
+move B up
+move c down
+# Battle: c(V3) vs B(V2) - c wins
+
+board
+# B should show V2 (revealed) and be off board
+
+

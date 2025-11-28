@@ -1,0 +1,21 @@
+# Test extreme strength difference: V4 vs V1
+
+# d(V4) attacks A(V1) - d should win easily
+move d down
+move A up
+move d left
+move A up
+move d down
+move A up
+move d down
+# d at row 4 col 2, A at row 4 col 0
+move d left
+move A right
+# Getting closer
+move d left
+# Battle: d(V4) vs A(V1) - d wins!
+
+board
+# A should be gone
+
+

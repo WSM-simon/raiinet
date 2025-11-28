@@ -1,0 +1,30 @@
+# Test Polarize: Convert virus to data, then escape for win
+
+# Check initial - a is V1
+board
+
+# Polarize a (V1 -> D1)
+ability 5 a
+move a down
+
+board
+# a should now show D1
+
+# Escape the converted link
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+# a (now Data) escapes - counts toward data win!
+
+board
+
+

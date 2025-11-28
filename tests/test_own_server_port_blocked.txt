@@ -1,0 +1,16 @@
+# Test that you cannot move onto your own server port
+
+# Move c to be adjacent to own server port
+move c right
+# c at row 0, col 3? No, c starts at col 2
+
+move A up
+
+# Try different approach - move d up toward own server port
+# d starts at row 1, col 3 (below server port)
+move d up
+# Should fail - can't move onto own server port!
+
+board
+
+

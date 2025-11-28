@@ -1,0 +1,18 @@
+# Test boosted link moving through firewall
+
+# P1 places firewall
+ability 2 3 1
+move a down
+
+# P2 boosts and moves toward firewall
+ability 1 B
+move B up
+# B moves 2 squares
+
+move b down
+move B up
+# B should hit firewall during 2-square move?
+
+board
+
+

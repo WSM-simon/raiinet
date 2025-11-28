@@ -1,0 +1,17 @@
+# Test invalid moves
+
+# Try to move off left edge
+move a left
+
+# Try to move onto own server port (row 0, col 3 or 4 for Player 1)
+# First move c to be adjacent to server port
+move c down
+move A up
+move c right
+# c is now at row 1, col 3
+# Try to move c up onto own server port - should fail
+move c up
+
+board
+
+

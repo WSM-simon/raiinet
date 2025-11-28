@@ -1,0 +1,22 @@
+# Test difference between escaping off edge vs entering server port
+
+# Move e (at col 4) - it's above server port
+# If it goes down, does it escape or enter server port?
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# e at row 6, col 4 (above opponent's server port)
+move E up
+# e moves to row 7, col 4 = server port!
+move e down
+# What happens? Server port capture or escape?
+
+board
+
+

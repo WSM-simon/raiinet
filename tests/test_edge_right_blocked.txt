@@ -1,0 +1,18 @@
+# Test moving off right edge is blocked
+
+# h is at col 7, row 0
+move h right
+# Should fail - outside board
+
+board
+
+# Try after moving down
+move A up
+move h down
+move A up
+move h right
+# Should still fail
+
+board
+
+

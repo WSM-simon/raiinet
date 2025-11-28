@@ -1,22 +1,21 @@
 module polarizeability;
 
 import ability;
-import game;
+import board;
 import player;
 import link;
 import util.linkType;
 import util.abilityParams;
 import util.abilityResult;
-import util.linkType;
 
 
 PolarizeAbility::PolarizeAbility() : Ability("Polarize", 'P') {}
 
-AbilityResult PolarizeAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult PolarizeAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
-    (void)game;
+    (void)board;
     (void)opponent;
     (void)opponentParams; // Don't need these for PolarizeAbility
 

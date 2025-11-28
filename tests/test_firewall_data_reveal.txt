@@ -1,0 +1,23 @@
+# Test that data passing through firewall gets revealed but not captured
+
+# P1 places firewall at row 4, col 5
+ability 2 4 5
+move a down
+
+# Move F(D2) toward firewall
+move F up
+move b down
+move F up
+move c down
+move F up
+# F should pass through, get revealed, but continue
+
+board
+# F should show D2 now (revealed)
+
+move d down
+move F up
+
+board
+
+

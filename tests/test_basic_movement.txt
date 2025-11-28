@@ -1,0 +1,11 @@
+# Test basic movement
+# Player 1 moves down, Player 2 moves up
+move a down
+move A up
+move b down
+move B up
+move c down
+move C up
+board
+
+

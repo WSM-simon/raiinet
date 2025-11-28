@@ -1,0 +1,9 @@
+# Test invalid link ID
+
+move z down
+move 1 down
+move @ down
+
+board
+
+

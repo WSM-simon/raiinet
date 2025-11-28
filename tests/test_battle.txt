@@ -1,0 +1,19 @@
+# Test battle mechanics
+# Move pieces toward each other until they collide
+
+# Player 1 moves a down
+move a down
+# Player 2 moves A up
+move A up
+# Continue moving toward each other
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+# Should trigger battle
+move a down
+board
+
+

@@ -1,0 +1,21 @@
+# Test that strength matters in battles
+# Higher strength wins, tie goes to attacker
+# Default: a=V1, b=V2, c=V3, d=V4, A=V1, B=V2, C=V3, D=V4
+
+# Move c (V3) and A (V1) toward each other
+# c has strength 3, A has strength 1
+# c should win
+
+move c down
+move A up
+move c down
+move A up
+move c down
+move A up
+# c at row 3, A at row 4
+move c down
+# Battle: c(V3) vs A(V1) - c wins, A downloaded
+
+board
+
+

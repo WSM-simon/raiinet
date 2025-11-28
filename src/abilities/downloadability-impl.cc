@@ -1,8 +1,8 @@
 module downloadability;
 
 import ability;
-import game;
-import player;
+import board;
+import player;  // Full type needed for method calls
 import link;
 import util.abilityParams;
 import util.abilityResult;
@@ -10,7 +10,7 @@ import util.abilityResult;
 
 DownloadAbility::DownloadAbility() : Ability("Download", 'D') {}
 
-AbilityResult DownloadAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult DownloadAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
@@ -19,8 +19,6 @@ AbilityResult DownloadAbility::apply(Game& game, Player& user, Player& opponent,
     AbilityResult res;
 
     Link* opponentLink = opponent.getLinkById(opponentParams.targetLinkId);
-
-    Board& board = game.getBoard();
 
     if (!opponentLink) {
         res.header.success = false;
@@ -42,7 +40,6 @@ AbilityResult DownloadAbility::apply(Game& game, Player& user, Player& opponent,
         user.incrementDownloadedViruses();
     }
 
-    opponentLink->setRevealedToOpponent(true);
     board.removeLink(opponentLink);
     markUsed();
     res.used = true;

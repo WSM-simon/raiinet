@@ -1,0 +1,9 @@
+# Test placing firewall on server port
+
+# Try to place firewall on server port (row 0, col 3)
+ability 2 0 3
+# Should this be allowed?
+
+board
+
+

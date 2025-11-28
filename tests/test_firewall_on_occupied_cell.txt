@@ -1,0 +1,9 @@
+# Test placing firewall on cell with a link
+
+# Try to place firewall where A is (row 7, col 0)
+ability 2 7 0
+# Should this succeed or fail?
+
+board
+
+

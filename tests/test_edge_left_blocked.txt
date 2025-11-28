@@ -1,0 +1,18 @@
+# Test moving off left edge is blocked
+
+# a is at col 0, row 0
+move a left
+# Should fail - outside board
+
+board
+
+# Try after moving down
+move A up
+move a down
+move A up
+move a left
+# Should still fail
+
+board
+
+

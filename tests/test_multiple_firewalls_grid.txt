@@ -1,0 +1,20 @@
+# Test placing multiple firewalls creating a grid
+
+# P1 places firewall row 3
+ability 2 3 2
+move a down
+
+# P2 places firewall row 4
+ability 2 4 5
+move A up
+
+# P1 places another (if ability allows - check if used)
+move b down
+
+# P2 moves
+move B up
+
+board
+# Should see 'm' at (3,2) and 'w' at (4,5)
+
+

@@ -1,0 +1,16 @@
+# Test the abilities command shows ability list
+
+abilities
+
+# Use one ability
+ability 1 a
+
+# Check abilities again (should show one used)
+abilities
+
+move a down
+
+# Player 2's abilities
+abilities
+
+

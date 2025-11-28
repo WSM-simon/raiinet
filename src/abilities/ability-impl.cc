@@ -2,8 +2,6 @@ module ability;
 
 import <string>;
 import <utility>;
-import game;
-import player;
 import util.abilityParams;
 
 using std::string;

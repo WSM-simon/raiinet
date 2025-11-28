@@ -6,7 +6,7 @@ import cell;
 import link;
 import util.position;
 import util.direction;
-import util.serverport;
+import util.serverPort;
 import util.moveResult;
 import util.placeResult;
 import util.firewallInfo;
@@ -14,11 +14,13 @@ import util.firewallInfo;
 using std::vector;
 
 Board::Board() {
-    serverPorts_[0].ownerId = 0;
-    serverPorts_[0].loc = { {7,3}, {7,4} };
+    // Player 1's server ports (at top of board - opponents escape into these)
+    serverPorts_[0].ownerId = 1;
+    serverPorts_[0].loc = { {0,3}, {0,4} };
 
-    serverPorts_[1].ownerId = 1;
-    serverPorts_[1].loc = { {0,3}, {0,4} };
+    // Player 2's server ports (at bottom of board - opponents escape into these)
+    serverPorts_[1].ownerId = 2;
+    serverPorts_[1].loc = { {7,3}, {7,4} };
 }
 
 int Board::getRows() { return ROWS_; }
@@ -81,9 +83,13 @@ Position Board::computeTargetPosition(Position start, Direction dir) {
 }
 
 bool Board::isInServerLoc(int playerId, Position pos) {
-    if (playerId < 0 || playerId > 1) return false;
-    for (auto p : serverPorts_[playerId].loc) {
-        if (p.row == pos.row && p.col == pos.col) return true;
+    // Check both server port arrays for matching playerId
+    for (int i = 0; i < 2; ++i) {
+        if (serverPorts_[i].ownerId == playerId) {
+            for (auto p : serverPorts_[i].loc) {
+                if (p.row == pos.row && p.col == pos.col) return true;
+            }
+        }
     }
     return false;
 }
@@ -108,18 +114,22 @@ void Board::resolveBattle(Link* attacker, Link* defender, Position targetPos, Mo
         attacker->setPosition(targetPos);
 
         defender->setOnBoard(false);
+        defender->setRevealedToOpponent(true);
 
         result.moved = true;
         result.downloaded = true;
         result.downloadedLink = defender;
+        result.downloaderId = attacker->getOwnerId();  // Attacker wins, gets defender's link
     } else {
         // defender wins
         fromCell.clearLink();
         attacker->setOnBoard(false);
+        attacker->setRevealedToOpponent(true);
 
         result.moved = true;
         result.downloaded = true;
         result.downloadedLink = attacker;
+        result.downloaderId = defender->getOwnerId();  // Defender wins, gets attacker's link
     }
 }
 
@@ -146,6 +156,7 @@ void Board::applyFirewallEffects(Link* link, Position pos, MoveResult& result) {
         link->setOnBoard(false);
         result.downloaded = true;
         result.downloadedLink = link;
+        result.downloaderId = fw->ownerId;  // Firewall owner captures the virus
     }
 }
 
@@ -166,7 +177,7 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
     }
 
     int ownerId = link->getOwnerId();
-    int enemyId = 1 - ownerId;
+    int enemyId = 3 - ownerId;  // 3-1=2 or 3-2=1
 
     // move the link to the target position
     Position from = link->getPosition();
@@ -176,11 +187,12 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
     for (int i = 0; i < steps; i++) {
         cur = computeTargetPosition(cur, dir);
         // check if the target position is inside the board
-        // Player 0 moves off top edge (row -1) or Player 1 moves off bottom edge (row 8)
-        if ((ownerId == 0 && cur.row == 8) || (ownerId == 1 && cur.row == -1)) {
+        // Player 1 moves off bottom edge (row 8) or Player 2 moves off top edge (row -1)
+        if ((ownerId == 1 && cur.row >= 8) || (ownerId == 2 && cur.row <= -1)) {
             res.moved = true;
             res.downloaded = true;
             res.downloadedLink = link;
+            res.downloaderId = ownerId;  // Owner escapes their own link - THEY get credit
             fromCell.clearLink();
             link->setOnBoard(false);
             res.header.success = true;
@@ -203,7 +215,7 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
         return res;
     }
 
-    // enemy server ports -> legal, but immediate download
+    // enemy server ports -> legal, but immediate download by enemy
     if (isInServerLoc(enemyId, to)) {
         if (fromCell.getLink() == link) {
             fromCell.clearLink();
@@ -213,6 +225,7 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
         res.moved = true;
         res.downloaded = true;
         res.downloadedLink = link;
+        res.downloaderId = enemyId;  // Enemy server port captures your link
 
         return res;
     }
@@ -222,10 +235,16 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
 
     Link* defender = toCell.getLink();
     if (defender) {
+        // Can't attack your own link
+        if (defender->getOwnerId() == link->getOwnerId()) {
+            res.header.success = false;
+            res.header.msg = "You cannot attack your own link.";
+            return res;
+        }
         // battle logic
         resolveBattle(link, defender, to, res);
     } else {
-        // simple move logic
+        // simple move logic - empty cell
         fromCell.clearLink();
         toCell.setLink(link);
         link->setPosition(to);

@@ -1,7 +1,7 @@
 module scanability;
 
 import ability;
-import game;
+import board;
 import player;
 import link;
 import util.abilityParams;
@@ -10,11 +10,11 @@ import util.abilityResult;
 
 ScanAbility::ScanAbility() : Ability("Scan", 'S') {}
 
-AbilityResult ScanAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult ScanAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
-    (void)game;
+    (void)board;
     (void)user;
     (void)userParams; // Don't need this for ScanAbility
 

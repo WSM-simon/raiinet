@@ -1,0 +1,22 @@
+# Test LinkBoost helping with quick escape
+
+# Boost link h (D4) at col 7
+ability 1 h
+move h down
+# h at row 2
+
+move H up
+move h down
+# h at row 4
+
+move H up
+move h down
+# h at row 6
+
+move H up
+move h down
+# h escapes off row 8!
+
+board
+
+

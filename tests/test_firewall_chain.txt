@@ -1,0 +1,25 @@
+# Test multiple firewalls in a row
+
+# P1 places firewall at row 4, col 0
+ability 2 4 0
+move a down
+
+# P2 places firewall at row 3, col 0
+ability 2 3 0
+move A up
+
+# Now there are two firewalls in column 0
+board
+
+# Move a link through both
+move a down
+move A left
+move a down
+# Should hit one firewall
+move A up
+move a down
+# Should hit another firewall?
+
+board
+
+

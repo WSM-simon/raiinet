@@ -1,0 +1,36 @@
+# Test server port behavior for both server port columns (3 and 4)
+
+# Move d toward server port (col 3)
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+move D up
+move d down
+# d at row 6, col 3
+move D up
+move d down
+# d enters server port at row 7, col 3 - captured!
+
+# Now try e (col 4)
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# e at row 6, col 4
+move E up
+move e down
+# e enters server port at row 7, col 4 - captured!
+
+board
+
+

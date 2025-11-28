@@ -1,0 +1,14 @@
+# Test horizontal movement (left/right)
+
+move a down
+move A up
+move a right
+move A left
+move a right
+move A left
+move a down
+move A up
+
+board
+
+

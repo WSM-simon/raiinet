@@ -1,0 +1,8 @@
+# Test Scan on own link (should fail or have no effect)
+
+ability 4 a
+# Should fail - can only scan opponent's links
+
+board
+
+

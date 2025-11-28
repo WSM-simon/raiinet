@@ -1,0 +1,17 @@
+# Test that only 1 ability can be used per turn
+
+# Player 1 uses first ability
+ability 1 a
+
+# Try to use another ability - should fail
+ability 4 A
+
+# Move to end turn
+move a down
+
+# Player 2 can use ability now
+ability 1 A
+
+board
+
+

@@ -1,49 +1,56 @@
-all:
-	g++ -std=c++20 -fmodules-ts -c -x c++-system-header iostream sstream fstream string vector algorithm
-	g++ -std=c++20 -fmodules-ts -Wall -g -c src/observer.cc
-	g++ -std=c++20 -fmodules-ts -Wall -g -c src/observer-impl.cc
-	g++ -std=c++20 -fmodules-ts -Wall -g -c src/subject.cc
-	g++ -std=c++20 -fmodules-ts -Wall -g -c src/subject-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/display.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/textdisplay.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/textdisplay-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/graphicsdisplay.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/graphicsdisplay-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/controller.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/controller-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/game.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/game-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/board.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/board-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/cell.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/cell-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/player.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/player-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/link.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/link-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/ability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/ability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/downloadability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/downloadability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/firewallability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/firewallability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/linkboostability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/linkboostability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/polarizeability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/polarizeability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/scanability.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/abilities/scanability-impl.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/abiliityParams.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/direction.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/firewallinfo.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/linkType.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/moveresult.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/position.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/util/serverport.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g -c src/main.cc
-	# g++ -std=c++20 -fmodules-ts -Wall -g observer.o observer-impl.o subject.o subject-impl.o display.o textdisplay.o textdisplay-impl.o graphicsdisplay.o graphicsdisplay-impl.o controller.o controller-impl.o game.o game-impl.o board.o board-impl.o cell.o cell-impl.o player.o player-impl.o link.o link-impl.o ability.o ability-impl.o downloadability.o downloadability-impl.o firewallability.o firewallability-impl.o linkboostability.o linkboostability-impl.o polarizeability.o polarizeability-impl.o scanability.o scanability-impl.o abiliityParams.o direction.o firewallinfo.o linkType.o moveresult.o position.o serverport.o main.o -o raiinet
-	g++ -std=c++20 -fmodules-ts -Wall -g observer.o observer-impl.o subject.o subject-impl.o -o raiinet
+CXX = g++
+CXXFLAGS = -std=c++20 -fmodules-ts -Wall -g
+TARGET = raiinet
+
+# System headers to precompile
+HEADERS = iostream sstream fstream string vector algorithm memory utility
+
+# Utility modules
+UTIL_SRCS = src/util/position.cc src/util/direction.cc src/util/linkType.cc \
+            src/util/resultHeader.cc src/util/firewallinfo.cc src/util/abilityKind.cc \
+            src/util/placeResult.cc src/util/abiliityParams.cc src/util/abilityResult.cc \
+            src/util/linkSetup.cc src/util/playerSetup.cc
+
+# Base modules (order matters for dependencies)
+BASE_SRCS = src/link.cc src/util/moveresult.cc src/util/serverport.cc src/cell.cc \
+            src/observer.cc src/observer-impl.cc src/subject.cc src/subject-impl.cc \
+            src/board.cc src/board-impl.cc src/player.cc
+
+# Ability modules
+ABILITY_SRCS = src/abilities/ability.cc src/abilities/ability-impl.cc \
+               src/abilities/downloadability.cc src/abilities/downloadability-impl.cc \
+               src/abilities/firewallability.cc src/abilities/firewallability-impl.cc \
+               src/abilities/scanability.cc src/abilities/scanability-impl.cc \
+               src/abilities/polarizeability.cc src/abilities/polarizeability-impl.cc \
+               src/abilities/linkboostability.cc src/abilities/linkboostability-impl.cc \
+               src/util/abilityFactory.cc
+
+# Game and UI modules
+GAME_SRCS = src/game.cc src/game-impl.cc src/textdisplay.cc src/controller.cc src/main.cc
+
+ALL_SRCS = $(UTIL_SRCS) $(BASE_SRCS) $(ABILITY_SRCS) $(GAME_SRCS)
+OBJS = $(notdir $(ALL_SRCS:.cc=.o))
+
+all: headers $(TARGET)
+
+headers:
+	$(CXX) $(CXXFLAGS) -c -x c++-system-header $(HEADERS)
+
+$(TARGET): compile_modules
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+
+compile_modules:
+	@echo "Compiling utility modules..."
+	$(CXX) $(CXXFLAGS) -c $(UTIL_SRCS)
+	@echo "Compiling base modules..."
+	$(CXX) $(CXXFLAGS) -c $(BASE_SRCS)
+	@echo "Compiling ability modules..."
+	$(CXX) $(CXXFLAGS) -c $(ABILITY_SRCS)
+	@echo "Compiling game and UI modules..."
+	$(CXX) $(CXXFLAGS) -c $(GAME_SRCS)
 
 clean:
-	rm -f *.o src/abilities/*.o src/util/*.o raiinet
+	rm -f *.o $(TARGET)
 	rm -rf gcm.cache
+
+.PHONY: all headers compile_modules clean

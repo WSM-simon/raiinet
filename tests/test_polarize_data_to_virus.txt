@@ -1,0 +1,26 @@
+# Test Polarize: Convert data to virus (risky move)
+
+# Check initial - e is D1
+board
+
+# Polarize e (D1 -> V1)
+ability 5 e
+move e down
+
+board
+# e should now show V1
+
+# Now if e gets downloaded, it counts as virus!
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# e escapes - but now it's a virus, counts toward virus count!
+
+board
+
+

@@ -1,0 +1,13 @@
+# Test that you cannot attack your own link
+
+# Move a and b toward each other (same player)
+move a down
+move A up
+move a right
+move A up
+# Try to move a onto b's position - should fail
+move b left
+
+board
+
+

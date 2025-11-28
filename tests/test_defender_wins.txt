@@ -1,0 +1,24 @@
+# Test defender winning a battle
+# When defender has higher strength, attacker is downloaded
+
+# Move a (V1) toward D (V4)
+# D has strength 4, a has strength 1
+# D should win (defender wins)
+
+move a down
+move D up
+move a down
+move D up
+move a down
+move D up
+move a down
+move D up
+move a down
+# a at row 5, D at row 4
+# a attacks D
+move a down
+# Battle: a(V1) attacks D(V4) - D wins, a downloaded by Player 2
+
+board
+
+

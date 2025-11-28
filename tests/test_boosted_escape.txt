@@ -1,0 +1,26 @@
+# Test LinkBoost helping escape faster
+# Boosted link moves 2 squares per turn
+
+# LinkBoost link f (at col 5)
+ability 1 f
+move f down
+# f moved 2 squares (now at row 2)
+
+move F up
+
+move f down
+# f at row 4
+
+move F up
+
+move f down
+# f at row 6
+
+move F up
+
+# f escapes with one more move (2 squares from row 6 goes off board)
+move f down
+
+board
+
+

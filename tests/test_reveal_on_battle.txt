@@ -1,0 +1,23 @@
+# Test that links are revealed after battle
+# After battle, the loser's type should be visible to both players
+
+board
+
+# Move toward each other
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+
+# Before battle - types hidden
+board
+
+move a down
+# Battle happens - loser revealed
+
+# After battle - loser's type should be shown
+board
+
+

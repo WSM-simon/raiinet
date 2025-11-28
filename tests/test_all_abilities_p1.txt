@@ -1,0 +1,39 @@
+# Test Player 1 using all 5 abilities across multiple turns
+# LFDSP = LinkBoost, Firewall, Download, Scan, Polarize
+
+# Turn 1: Use LinkBoost on a
+ability 1 a
+move a down
+
+# Turn 2: P2 moves
+move A up
+
+# Turn 3: Use Firewall at 4,4
+ability 2 4 4
+move b down
+
+# Turn 4: P2 moves
+move B up
+
+# Turn 5: Use Scan on C
+ability 4 C
+move c down
+
+# Turn 6: P2 moves
+move C up
+
+# Turn 7: Use Polarize on e (D1 becomes V1)
+ability 5 e
+move e down
+
+# Turn 8: P2 moves
+move D up
+
+# Turn 9: Try Download on E (need to be adjacent or revealed)
+ability 4 E
+move d down
+
+board
+abilities
+
+

@@ -1,0 +1,55 @@
+# Full game simulation - try to reach win condition
+
+# P1 strategy: escape data links
+
+# Boost h(D4)
+ability 1 h
+move h down
+
+move H up
+move h down
+move H up
+move h down
+move H up
+move h down
+# h escapes! 1 data for P1
+
+# Continue with g(D3)
+ability 1 g
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+# g escapes! 2 data for P1
+
+# Continue with f(D2)
+ability 1 f
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+# f escapes! 3 data for P1
+
+# Final push with e(D1)
+ability 1 e
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# e escapes! 4 data for P1 - WIN!
+
+board
+
+

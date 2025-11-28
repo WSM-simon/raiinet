@@ -1,0 +1,15 @@
+# Test that used abilities cannot be used again
+
+# Player 1 uses LinkBoost
+ability 1 a
+move a down
+
+# Player 2's turn
+move A up
+
+# Player 1's turn again - try to use LinkBoost again (should fail - already used)
+ability 1 b
+
+board
+
+

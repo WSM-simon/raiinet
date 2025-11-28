@@ -1,0 +1,31 @@
+# Test firewall capturing multiple viruses
+# Place firewall in path, send viruses through
+
+# P1 places firewall at row 5, col 0
+ability 2 5 0
+move a down
+
+# P2 moves A(V1) toward firewall
+move A up
+move b down
+move A up
+move c down
+move A up
+move d down
+move A up
+move e down
+# A hits firewall at row 5 - virus captured!
+
+# P2 moves B(V2) toward same firewall path
+move B up
+move f down
+move B left
+move g down
+move B up
+move h down
+move B up
+# Continue if B reaches firewall
+
+board
+
+

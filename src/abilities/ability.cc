@@ -2,10 +2,10 @@ export module ability;
 
 import <string>;
 import <utility>;
-import game;
-import player;
 import util.abilityParams;
 import util.abilityResult;
+import board;
+import player;
 
 using std::string;
 
@@ -23,7 +23,7 @@ public:
     char getCode() const;
     bool isUsed() const;
     void markUsed();
-    virtual AbilityResult apply (Game& game, Player& user, Player& opponent, 
-                                 AbilityParams& userParams,
-                                 AbilityParams& opponentParams) = 0;
+    virtual AbilityResult apply(Board& board, Player& user, Player& opponent, 
+                                AbilityParams& userParams,
+                                AbilityParams& opponentParams) = 0;
 };

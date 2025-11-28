@@ -1,0 +1,14 @@
+# Test scanning same link multiple times
+
+ability 4 A
+move a down
+
+move A up
+
+# Scan A again (already revealed)
+ability 4 A
+# Should this use up ability or fail?
+
+board
+
+

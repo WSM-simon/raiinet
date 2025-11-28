@@ -1,0 +1,18 @@
+# Test polarize then battle - does type matter for strength?
+
+# Polarize e (D1 -> V1)
+ability 5 e
+move e down
+
+# Move e toward A(V1)
+move A up
+move e down
+move A up
+move e down
+move A up
+move e down
+# e(now V1) vs A(V1) - same strength, tie to attacker
+
+board
+
+

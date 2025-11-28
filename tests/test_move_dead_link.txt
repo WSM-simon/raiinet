@@ -1,0 +1,19 @@
+# Test moving a dead link
+
+# Kill link a in battle
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+# a won battle
+
+# Try to move the dead A
+move A up
+# Should fail - A is dead
+
+board
+
+

@@ -1,0 +1,65 @@
+# Test win condition: Download 4 data to win
+# Player 1 escapes all 4 data links (e,f,g,h = D1,D2,D3,D4)
+
+# Escape link e (D1) - column 4
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# e escapes
+
+# Escape link f (D2) - column 5
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+move F up
+move f down
+# f escapes
+
+# Escape link g (D3) - column 6
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+move G up
+move g down
+# g escapes
+
+# Escape link h (D4) - column 7
+move H up
+move h down
+move H up
+move h down
+move H up
+move h down
+move H up
+move h down
+move H up
+move h down
+move H up
+move h down
+# h escapes - Player 1 should win with 4 data!
+
+board
+
+

@@ -1,0 +1,20 @@
+# Test extreme strength difference: V1 vs V4
+
+# a(V1) attacks D(V4) - D should win
+move a down
+move D up
+move a down
+move D up
+move a down
+move D up
+move a down
+move D up
+move a down
+# a at row 5, D at row 4
+move a down
+# Battle: a(V1) vs D(V4) - D wins, a downloaded
+
+board
+# a should be gone (downloaded by P2)
+
+

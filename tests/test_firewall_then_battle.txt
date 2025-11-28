@@ -1,0 +1,17 @@
+# Test firewall placement followed by battle
+
+# Place firewall
+ability 2 3 0
+move a down
+
+# P2 approaches
+move A up
+
+move a down
+move A up
+move a down
+# Battle at row 3
+
+board
+
+

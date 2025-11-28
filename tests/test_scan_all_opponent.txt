@@ -1,0 +1,31 @@
+# Test scanning multiple opponent links
+
+# Scan A
+ability 4 A
+move a down
+
+# P2 turn
+move A up
+
+# Scan B
+ability 4 B
+move b down
+
+# P2 turn
+move B up
+
+# Scan C
+ability 4 C
+move c down
+
+# P2 turn
+move C up
+
+# Scan D
+ability 4 D
+move d down
+
+board
+# A, B, C, D should all be revealed
+
+

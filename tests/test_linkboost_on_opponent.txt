@@ -1,0 +1,8 @@
+# Test LinkBoost on opponent's link (should fail)
+
+ability 1 A
+# Should fail - can only boost own links
+
+board
+
+

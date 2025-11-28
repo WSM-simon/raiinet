@@ -1,0 +1,17 @@
+# Test LinkBoost ability (move 2 squares)
+# Default abilities: LFDSP (LinkBoost=1, Firewall=2, Download=3, Scan=4, Polarize=5)
+
+# Player 1 uses LinkBoost (ability 1) on their link a
+ability 1 a
+
+# Move a - should move 2 squares instead of 1
+move a down
+
+board
+
+# Player 2's turn
+move A up
+
+board
+
+

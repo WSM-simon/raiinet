@@ -1,0 +1,34 @@
+# Test Player 2 using abilities
+
+# P1 moves
+move a down
+
+# P2 uses LinkBoost
+ability 1 A
+move A up
+
+# P1 moves
+move b down
+
+# P2 uses Firewall
+ability 2 3 3
+move B up
+
+# P1 moves
+move c down
+
+# P2 uses Scan
+ability 4 a
+move C up
+
+# P1 moves
+move d down
+
+# P2 uses Polarize
+ability 5 E
+move D up
+
+board
+abilities
+
+

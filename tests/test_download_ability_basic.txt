@@ -1,0 +1,16 @@
+# Test Download ability - directly download opponent's link
+
+# First scan to reveal the link (required?)
+ability 4 A
+move a down
+
+# P2 turn
+move A up
+
+# Now try to download A
+ability 3 A
+
+board
+# A should be downloaded by P1
+
+

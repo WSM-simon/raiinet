@@ -1,0 +1,14 @@
+# Master test runner - runs all test files using sequence command
+# Usage: ./raiinet then type: sequence tests/run_all_tests.txt
+
+# Note: Each sequence resets context but game state persists
+# These tests should be run individually for proper testing
+
+# To run all tests, use shell script instead:
+# for f in tests/test_*.txt; do echo "=== $f ==="; ./raiinet < "$f" | tail -10; done
+
+# Or run individual tests:
+sequence tests/test_basic_movement.txt
+quit
+
+

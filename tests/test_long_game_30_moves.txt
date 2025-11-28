@@ -1,0 +1,36 @@
+# Test long game with 30+ moves
+
+move a down
+move A up
+move b down
+move B up
+move c down
+move C up
+move a down
+move A up
+move b down
+move B up
+move c down
+move C up
+move a down
+move A up
+move b down
+move B up
+move c down
+move C up
+move d down
+move D up
+move e down
+move E up
+move f down
+move F up
+move g down
+move G up
+move h down
+move H up
+move a down
+move A up
+
+board
+
+

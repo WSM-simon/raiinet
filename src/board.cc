@@ -4,15 +4,15 @@ import cell;
 import link;
 import util.position;
 import util.direction;
-import util.serverport;
+import util.serverPort;
 import util.moveResult;
 import util.placeResult;
 import util.firewallInfo;
 
 export class Board {
 private:
-    const int ROWS_ = 8;
-    const int COLS_ = 8;
+    static constexpr int ROWS_ = 8;
+    static constexpr int COLS_ = 8;
 
     Cell grid_[ROWS_][COLS_];
     ServerPort serverPorts_[2];      // 2 players: 0 and 1

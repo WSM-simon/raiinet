@@ -1,0 +1,19 @@
+# Test Polarize ability (flip link type)
+# Default abilities: LFDSP (LinkBoost, Firewall, Download, Scan, Polarize)
+
+# Show abilities
+abilities
+
+# Player 1 uses Polarize (ability 5) on their own link a
+# This should flip a from Virus to Data (or vice versa)
+ability 5 a
+
+# Check the board to see the change
+board
+
+# Move to end turn
+move a down
+
+board
+
+

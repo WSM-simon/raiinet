@@ -1,0 +1,17 @@
+# Test Data vs Data battle
+
+# e(D1) vs E(D1)
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+move E up
+move e down
+# Battle: e(D1) vs E(D1) - tie, attacker wins
+
+board
+
+

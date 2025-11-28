@@ -1,0 +1,20 @@
+# Test that Data links pass through firewall (only revealed, not captured)
+# Firewalls only capture Viruses
+
+# Player 1 places firewall at row 4, col 5
+ability 2 4 5
+
+move a down
+
+# Player 2 moves F (which is D2 = Data) toward firewall
+move F up
+move b down
+move F up
+move c down
+# F at row 5
+move F up
+# F should pass through firewall, get revealed, but NOT captured
+
+board
+
+

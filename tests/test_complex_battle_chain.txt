@@ -1,0 +1,36 @@
+# Test complex chain of battles
+# Multiple battles in sequence with different strengths
+
+# Move d(V4) toward A(V1) - d should win
+move d down
+move A up
+move d left
+move A up
+move d down
+move A up
+move d down
+# d(V4) vs A(V1) - d wins
+
+# Now move c(V3) toward B(V2)
+move B up
+move c down
+move B up
+move c down
+move B up
+move c down
+move B left
+move c down
+# c(V3) vs B(V2) - c wins
+
+# Move b(V2) toward C(V3) - b should lose
+move C up
+move b down
+move C up
+move b down
+move C up
+move b down
+# b(V2) vs C(V3) - C wins (defender)
+
+board
+
+

@@ -13,6 +13,8 @@ import util.moveResult;
 import util.abilityResult;
 import util.linkType;
 import util.abilityKind;
+import util.linkSetup;
+import util.playerSetup;
 import ability;
 import downloadability;
 import firewallability;
@@ -33,62 +35,68 @@ using std::make_unique;
  * NOTE: This does NOT place links on the board yet.
  * Call Game::setupDefaultLinks() or a custom setup method from Controller.
  */
-Game::Game(bool useGraphics)
+Game::Game(bool useGraphics, bool extraFeatures)
     : board_{}
     , players_{}
-    , currentPlayer_{0}
+    , abilities_{}
+    , currentPlayer_{1}
     , winnerId_{-1}
     , gameOver_{false}
-    , useGraphics_{useGraphics} {}
+    , useGraphics_{useGraphics}
+    , extraFeatures_{extraFeatures}
+    , abilityUsedThisTurn_{false} {}
 
+Ability* Game::getAbility(int playerIdx, int abilityIdx) {
+    if (playerIdx < 1 || playerIdx > 2) return nullptr;
+    if (abilityIdx < 0 || abilityIdx >= (int)abilities_[playerIdx].size()) return nullptr;
+    return abilities_[playerIdx][abilityIdx].get();
+}
 
-void Game::initializeGame(PlayerSetup& p0, PlayerSetup& p1) {
-    vector<Link> links0;
+void Game::initializeGame(PlayerSetup& p1Setup, PlayerSetup& p2Setup) {
     vector<Link> links1;
-    vector<unique_ptr<Ability>> abilities0;
-    vector<unique_ptr<Ability>> abilities1;
+    vector<Link> links2;
 
-    links0.reserve(p0.linkSetups.size());
-    links1.reserve(p1.linkSetups.size());
-    abilities0.reserve(p0.abilities.size());
-    abilities1.reserve(p1.abilities.size());
-
-    // ---- build links for player 0 ----
-    for (LinkSetup& ls : p0.linkSetups) {
-        links0.emplace_back(0, ls.id, ls.type, ls.strength);
-    }
-
-    // ---- build abilities for player 0 ----
-    for (AbilityKind& ak : p0.abilities) {
-        auto ability = makeAbility(ak);
-        if (ability) abilities0.push_back(move(ability));
-    }
+    links1.reserve(p1Setup.linkSetups.size());
+    links2.reserve(p2Setup.linkSetups.size());
+    abilities_[1].reserve(p1Setup.abilities.size());
+    abilities_[2].reserve(p2Setup.abilities.size());
 
     // ---- build links for player 1 ----
-    for (LinkSetup& ls : p1.linkSetups) {
+    for (LinkSetup& ls : p1Setup.linkSetups) {
         links1.emplace_back(1, ls.id, ls.type, ls.strength);
     }
 
     // ---- build abilities for player 1 ----
-    for (AbilityKind& ak : p1.abilities) {
+    for (AbilityKind& ak : p1Setup.abilities) {
         auto ability = makeAbility(ak);
-        if (ability) abilities1.push_back(move(ability));
+        if (ability) abilities_[1].push_back(move(ability));
     }
 
-    players_[0] = Player(0, move(links0), move(abilities0));
-    players_[1] = Player(1, move(links1), move(abilities1));
+    // ---- build links for player 2 ----
+    for (LinkSetup& ls : p2Setup.linkSetups) {
+        links2.emplace_back(2, ls.id, ls.type, ls.strength);
+    }
+
+    // ---- build abilities for player 2 ----
+    for (AbilityKind& ak : p2Setup.abilities) {
+        auto ability = makeAbility(ak);
+        if (ability) abilities_[2].push_back(move(ability));
+    }
+
+    // Players own their links; Game owns abilities
+    players_[1] = Player(1, move(links1));
+    players_[2] = Player(2, move(links2));
 
     // ---- place links on board according to positions ----
-    // now we need the actual Link* to place; so we loop again over players' links
-    for (auto& ls : p0.linkSetups) {
-        Link* link = players_[0].getLinkById(ls.id);
+    for (auto& ls : p1Setup.linkSetups) {
+        Link* link = players_[1].getLinkById(ls.id);
         if (link) {
             board_.placeLink(link, ls.pos);
         }
     }
 
-    for (auto& ls : p1.linkSetups) {
-        Link* link = players_[1].getLinkById(ls.id);
+    for (auto& ls : p2Setup.linkSetups) {
+        Link* link = players_[2].getLinkById(ls.id);
         if (link) {
             board_.placeLink(link, ls.pos);
         }
@@ -117,7 +125,7 @@ MoveResult Game::moveLink(char linkId, Direction dir) {
 
     Player& currentPlayer = getCurrentPlayer();
 
-    // Find link in current player's links
+    // Find link in current player's links only
     Link* link = nullptr;
     for (auto& ln : currentPlayer.getLinks()) {
         if (ln.getId() == linkId) {
@@ -126,9 +134,15 @@ MoveResult Game::moveLink(char linkId, Direction dir) {
         }
     }
 
-    if (!link || link->getOwnerId() != currentPlayer_) {
+    if (!link) {
         result.header.success = false;
-        result.header.msg = "Invalid link.";
+        result.header.msg = "That is not your link. You can only move your own links.";
+        return result;
+    }
+    
+    if (link->getOwnerId() != currentPlayer_) {
+        result.header.success = false;
+        result.header.msg = "You cannot move opponent's links.";
         return result;
     }
 
@@ -166,10 +180,17 @@ AbilityResult Game::useAbility(int abilityIndex, AbilityParams& params) {
         return result;
     }
 
-    Player& currentPlayer = getCurrentPlayer();
-    Player& opponent = players_[1 - currentPlayer_];
+    // Check if ability already used this turn
+    if (abilityUsedThisTurn_) {
+        result.header.success = false;
+        result.header.msg = "You can only use one ability per turn.";
+        return result;
+    }
 
-    Ability* ability = currentPlayer.getAbility(abilityIndex);
+    Player& currentPlayer = getCurrentPlayer();
+    Player& opponent = players_[3 - currentPlayer_];  // 3-1=2 or 3-2=1
+
+    Ability* ability = getAbility(currentPlayer_, abilityIndex);
     if (!ability) {
         result.header.success = false;
         result.header.msg = "Invalid ability index.";
@@ -186,10 +207,11 @@ AbilityResult Game::useAbility(int abilityIndex, AbilityParams& params) {
     AbilityParams userParams = params;
     AbilityParams opponentParams = params;
 
-    result = ability->apply(*this, currentPlayer, opponent, userParams, opponentParams);
+    result = ability->apply(board_, currentPlayer, opponent, userParams, opponentParams);
 
     if (result.header.success && result.used) {
         ability->markUsed();
+        abilityUsedThisTurn_ = true;  // Mark ability used this turn
     }
 
     // If ability downloaded links, AbilityResult should carry them;
@@ -222,13 +244,14 @@ void Game::reset() {
     board_.reset();
 
     // If Player has reset(), call it here.
-    // for (int i = 0; i < 2; ++i) {
+    // for (int i = 1; i <= 2; ++i) {
     //     players_[i].reset();
     // }
 
-    currentPlayer_ = 0;
+    currentPlayer_ = 1;
     winnerId_ = -1;
     gameOver_ = false;
+    abilityUsedThisTurn_ = false;
 
     notifyObservers();
 }
@@ -249,13 +272,16 @@ int Game::getWinnerId() {
 
 /**
  * Handle a single downloaded link:
- * - Figure out which player downloaded (opponent of owner)
+ * - Use the downloaderId from MoveResult to determine who gets credit
  * - Increase correct counter (data / virus)
  * - DO NOT touch board here (Board already removed link).
  */
-void Game::handleDownload(Link& link) {
-    int ownerId = link.getOwnerId();
-    int downloaderId = (ownerId == 0) ? 1 : 0;
+void Game::handleDownload(Link& link, int downloaderId) {
+    if (downloaderId < 1 || downloaderId > 2) {
+        // Fallback to opponent if downloaderId not set (shouldn't happen)
+        downloaderId = 3 - link.getOwnerId();
+    }
+    
     Player& downloader = players_[downloaderId];
 
     if (link.isData()) {
@@ -281,17 +307,18 @@ void Game::handleMoveResult(MoveResult& result) {
     }
 
     if (result.downloaded && result.downloadedLink) {
-        handleDownload(*result.downloadedLink);
+        handleDownload(*result.downloadedLink, result.downloaderId);
     }
 
     // result.battle / result.firewallTriggered can be used for logging/FX if you want
 }
 
 /**
- * Switch current player 0 ↔ 1.
+ * Switch current player 1 ↔ 2.
  */
 void Game::switchPlayer() {
-    currentPlayer_ = (currentPlayer_ == 0) ? 1 : 0;
+    currentPlayer_ = (currentPlayer_ == 1) ? 2 : 1;
+    abilityUsedThisTurn_ = false;  // Reset for new turn
 }
 
 /**
@@ -301,7 +328,7 @@ void Game::switchPlayer() {
  * - If both >= 4 (weird), treat as loss for that player
  */
 void Game::checkWinCondition() {
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 1; i <= 2; ++i) {
         int dataCount = players_[i].getDownloadedData();
         int virusCount = players_[i].getDownloadedViruses();
 
@@ -314,14 +341,14 @@ void Game::checkWinCondition() {
 
         // lose: 4+ virus, fewer than 4 data
         if (virusCount >= 4 && dataCount < 4) {
-            winnerId_ = (i == 0) ? 1 : 0;
+            winnerId_ = 3 - i;  // opponent wins
             gameOver_ = true;
             return;
         }
 
         // both >= 4: treat as loss for i
         if (dataCount >= 4 && virusCount >= 4) {
-            winnerId_ = (i == 0) ? 1 : 0;
+            winnerId_ = 3 - i;  // opponent wins
             gameOver_ = true;
             return;
         }

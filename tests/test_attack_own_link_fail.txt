@@ -1,0 +1,22 @@
+# Test that attacking own link fails
+
+# Move a and b toward each other
+move a down
+move A up
+move b down
+move A up
+move a right
+# a at row 1, col 1
+
+move A up
+move b down
+# b at row 1, col 1? No, b starts at col 1
+
+# Move a toward b's starting position
+move a right
+# a tries to move onto b's position
+# Should fail - can't attack own link
+
+board
+
+

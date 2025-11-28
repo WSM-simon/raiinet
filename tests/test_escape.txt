@@ -1,0 +1,24 @@
+# Test link escape (moving off opponent's edge)
+# Player 1 tries to escape a link
+
+# Move a link all the way down (Player 1 escapes off row 8)
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+move a down
+move A up
+# Link a should escape off the board now
+move a down
+
+board
+
+
