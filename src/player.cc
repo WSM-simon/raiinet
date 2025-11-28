@@ -66,8 +66,8 @@ public:
     // ---- victory status ----
     int victoryStatus() {
         if (downloadedData_ >= 4 && downloadedViruses_ < 4) return 1;
-        if (downloadedViruses_ >= 4 && downloadedData_ < 4) return -1;
-        if (downloadedData_ >= 4 && downloadedViruses_ >= 4) return 999; // if this happens, this should be an error
+        if (downloadedViruses_ >= 4 && downloadedData_ < 4) return 0;
+        if (downloadedData_ >= 4 && downloadedViruses_ >= 4) return -1; // if this happens, this should be an error
         return 0; // still playing
     }
 };

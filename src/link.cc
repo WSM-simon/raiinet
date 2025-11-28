@@ -28,6 +28,7 @@ public:
     char getId() { return id_; }
 
     // ---- type / strength ----
+    void setType(LinkType type) { type_ = type; }
     LinkType getType() { return type_; }
 
     bool isData() { return type_ == LinkType::Data; }
