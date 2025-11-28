@@ -1,4 +1,4 @@
-export module firewallability;
+export module exchangeability;
 
 import ability;
 import game;
@@ -6,9 +6,9 @@ import player;
 import util.abilityParams;
 import util.abilityResult;
 
-export class FirewallAbility : public Ability {
+export class ExchangeAbility : public Ability {
 public:
-    FirewallAbility();
+    ExchangeAbility();
     AbilityResult apply(Game& game, Player& user, Player& opponent,
                         AbilityParams& userParams, 
                         AbilityParams& opponentParams) override;

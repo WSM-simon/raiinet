@@ -3,6 +3,6 @@ export module util.abilityParams;
 import util.position;
 
 export struct AbilityParams {
-    int targetLinkId;
+    char targetLinkId;
     Position targetPos;
 };
