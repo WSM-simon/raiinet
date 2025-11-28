@@ -46,15 +46,6 @@ export class Controller {
         return c;
     }
 
-    // Convert link ID to the correct case for the current player
-    char adjustLinkId(char linkId, int playerId) {
-        if (playerId == 1) {
-            return toLower(linkId);  // Player 1 uses a-h
-        } else {
-            return toUpper(linkId);  // Player 2 uses A-H
-        }
-    }
-
     // Flip direction for Player 2 (only when extraFeatures enabled, since board is flipped 180°)
     Direction adjustDirection(Direction dir, int playerId) {
         // Only flip if extraFeatures is enabled AND it's Player 2
@@ -79,7 +70,6 @@ export class Controller {
 
         char linkId = linkIdStr[0];
         int currentPlayer = game_.getCurrentPlayerIndex();
-        linkId = adjustLinkId(linkId, currentPlayer);
         
         Direction dir = parseDirection(dirStr);
         dir = adjustDirection(dir, currentPlayer);  // Flip for Player 2

@@ -1,5 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -fmodules-ts -Wall -g
+CXXFLAGS = -std=c++20 -fmodules-ts -Wall -g -I/usr/X11/include
+LDFLAGS = -L/usr/X11/lib
 TARGET = raiinet
 
 # System headers to precompile
@@ -26,7 +27,7 @@ ABILITY_SRCS = src/abilities/ability.cc src/abilities/ability-impl.cc \
                src/util/abilityFactory.cc
 
 # Game and UI modules
-GAME_SRCS = src/game.cc src/game-impl.cc src/textdisplay.cc src/controller.cc src/main.cc
+GAME_SRCS = src/game.cc src/game-impl.cc src/textdisplay.cc src/graphicsdisplay.cc src/graphicsdisplay-impl.cc src/controller.cc src/main.cc
 
 ALL_SRCS = $(UTIL_SRCS) $(BASE_SRCS) $(ABILITY_SRCS) $(GAME_SRCS)
 OBJS = $(notdir $(ALL_SRCS:.cc=.o))
@@ -37,7 +38,7 @@ headers:
 	$(CXX) $(CXXFLAGS) -c -x c++-system-header $(HEADERS)
 
 $(TARGET): compile_modules
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET) $(LDFLAGS) -lX11
 
 compile_modules:
 	@echo "Compiling utility modules..."

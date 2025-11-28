@@ -156,7 +156,9 @@ void Board::applyFirewallEffects(Link* link, Position pos, MoveResult& result) {
         link->setOnBoard(false);
         result.downloaded = true;
         result.downloadedLink = link;
-        result.downloaderId = fw->ownerId;  // Firewall owner captures the virus
+
+        int opponentId = 3 - fw->ownerId;
+        result.downloaderId = opponentId;  // Firewall owner captures the virus
     }
 }
 

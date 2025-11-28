@@ -4,6 +4,7 @@ import <vector>;
 
 import game;
 import textdisplay;
+import graphicsdisplay;
 import controller;
 import util.playerSetup;
 import util.linkSetup;
@@ -143,7 +144,8 @@ int main(int argc, char* argv[]) {
     string ability2 = "LFDSP";
     string link1 = "V1V2V3V4D1D2D3D4";
     string link2 = "V1V2V3V4D1D2D3D4";
-    bool useGraphics = false;
+    bool useGraphics = true;  // Default to graphics mode
+    bool useText = true;     // Use text is default to true
     bool extraFeatures = false;
 
     // Parse command-line arguments
@@ -157,8 +159,9 @@ int main(int argc, char* argv[]) {
             link1 = argv[++i];
         } else if (arg == "-link2" && i + 1 < argc) {
             link2 = argv[++i];
-        } else if (arg == "-graphics") {
-            useGraphics = true;
+        } else if (arg == "-text") {
+            useText = true;
+            useGraphics = false;
         } else if (arg == "-enableExtraFeature") {
             extraFeatures = true;
         }
@@ -182,13 +185,30 @@ int main(int argc, char* argv[]) {
     // Initialize game
     game.initializeGame(p1, p2);
 
-    // Create text display (with extra features if enabled)
-    TextDisplay textDisplay{game, cout, extraFeatures};
-    game.attach(&textDisplay);
+    // Create displays
+    TextDisplay* textDisplay = nullptr;
+    GraphicsDisplay* graphicsDisplay = nullptr;
+
+    if (useText) {
+        // Text mode
+        textDisplay = new TextDisplay{game, cout, extraFeatures};
+        game.attach(textDisplay);
+    } 
+    if (useGraphics) {
+        // Graphics mode
+        graphicsDisplay = new GraphicsDisplay{game};
+        game.attach(graphicsDisplay);
+        // Also create text display for console messages
+        textDisplay = new TextDisplay{game, cout, extraFeatures};
+    }
 
     // Create and run controller
-    Controller controller{game, textDisplay, cin, cout};
+    Controller controller{game, *textDisplay, cin, cout};
     controller.run();
+
+    // Cleanup
+    if (graphicsDisplay) delete graphicsDisplay;
+    if (textDisplay) delete textDisplay;
 
     return 0;
 }
