@@ -14,6 +14,7 @@ export class Link {
 
     bool revealedToOpponent_ = false; // does the opponent know this link's true type/strength?
     bool boosted_ = false;            // LinkBoost ability applied?
+    bool visible_ = true;          // Visible ability applied?
 
 public:
     // ---- constructor ----
@@ -50,4 +51,8 @@ public:
     // ---- LinkBoost status ----
     bool isBoosted() { return boosted_; }
     void setBoosted(bool v) { boosted_ = v; }
+
+    // ---- Visible status ----
+    bool isVisible() { return visible_; }
+    void setVisible(bool v) { visible_ = v; }
 };

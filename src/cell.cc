@@ -1,7 +1,7 @@
 export module cell;
 
 import link;
-import util.firewallinfo;
+import util.firewallInfo;
 import util.position;
 
 export class Cell {
