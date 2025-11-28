@@ -40,8 +40,8 @@ AbilityResult DownloadAbility::apply(Game& game, Player& user, Player& opponent,
         user.incrementDownloadedViruses();
     }
 
-    opponentLink->revealToBoth();
-    board.removeLink(*opponentLink);
+    opponentLink->setRevealedToOpponent(true);
+    board.removeLink(opponentLink);
     markUsed();
     res.used = true;
     res.stateChanged = true;

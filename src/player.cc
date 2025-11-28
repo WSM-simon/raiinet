@@ -13,7 +13,6 @@ using std::string, std::vector, std::unique_ptr, std::move;
 
 export class Player {
     int id_;                             // index of the player (0..numPlayers-1)
-    string name_;                   // display name: "Player 1", etc.
 
     vector<Link> links_;            // owns its 8 links
     vector<unique_ptr<Ability>> abilities_;  // owns ability cards
@@ -24,12 +23,10 @@ export class Player {
 public:
     // ---- constructor ----
 
-    //TODO : needs to inplement initialAbilities
-    Player(int id, string name,
+    Player(int id,
            vector<Link> initialLinks,
            vector<unique_ptr<Ability>> initialAbilities)
         : id_{id}
-        , name_{move(name)}
         , links_{move(initialLinks)}
         , abilities_{move(initialAbilities)}
     {} // transfer ownership to Player
@@ -41,7 +38,7 @@ public:
     // ---- links ----
     vector<Link>& getLinks() { return links_; }
 
-    Link& getLinkById(char ch) {
+    Link* getLinkById(char ch) {
         for (auto &ln : links_) {
             if (ln.getId() == ch) return &ln;
         }

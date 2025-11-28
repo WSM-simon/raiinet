@@ -9,6 +9,7 @@ import link;                 // Link class
 import util.direction;       // Direction enum
 import util.abilityParams;  // AbilityParams struct
 import util.moveResult;      // MoveResult struct
+import util.abilityResult;   // AbilityResult struct
 import ability;              // Ability class (forward declaration)
 
 /**
@@ -40,6 +41,8 @@ export class Game : public Subject {
 public:
     Game(bool useGraphics = true);
 
+    void initializeGame(PlayerSetup& p0, PlayerSetup& p1);
+
     Board& getBoard() { return board_; }
 
     Player& getPlayer(int idx) { return players_[idx]; }
@@ -48,31 +51,10 @@ public:
 
     int getCurrentPlayerIndex() const { return currentPlayer_; }
 
-    // ---- Game Actions ----
-    /**
-     * Move a link on the board
-     * @param linkId Character ID of the link to move ('a'..'h')
-     * @param dir Direction to move
-     * 
-     * This method:
-     * 1. Gets the link from the current player
-     * 2. Calls board.moveLink() to perform the move
-     * 3. Handles the result (downloads, battles, etc.)
-     * 4. Notifies observers of state changes
-     */
-     MoveResult moveLink(char linkId, Direction dir);
+    MoveResult moveLink(char linkId, Direction dir);
 
-    /**
-     * Use an ability card
-     * @param abilityIndex Index of the ability in the player's ability list
-     * @param params Parameters for the ability (target link, position, etc.)
-     */
-    void useAbility(int abilityIndex, const AbilityParams& params);
+    AbilityResult useAbility(int abilityIndex, AbilityParams& params);
 
-    /**
-     * End the current player's turn
-     * Switches to the next player and checks win conditions
-     */
     void endTurn();
 
     void reset();
@@ -80,8 +62,5 @@ public:
     bool isGameOver();
 
     int getWinnerId();
-
-private:
-
 };
 

@@ -6,6 +6,7 @@ import player;
 import link;
 import util.abilityParams;
 import util.abilityResult;
+import util.linkType;
 
 
 PolarizeAbility::PolarizeAbility() : Ability("Polarize", 'P') {}
@@ -34,7 +35,12 @@ AbilityResult PolarizeAbility::apply(Game& game, Player& user, Player& opponent,
         return res;
     }
 
-//    userLink->changeLinkType();
+    // Polarize: change Data to Virus or Virus to Data
+    if (userLink->isData()) {
+        userLink->setType(LinkType::Virus);
+    } else {
+        userLink->setType(LinkType::Data);
+    }
     markUsed();
     res.used = true;
     res.stateChanged = true;

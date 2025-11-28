@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     // parse -ability1, -ability2, -seed, etc.
   }
 
-  Game game{numPlayers};
+  Game game{useGraphics};
 
   TextDisplay textDisplay{game};
   game.attach(&textDisplay);

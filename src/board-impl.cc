@@ -7,9 +7,9 @@ import link;
 import util.position;
 import util.direction;
 import util.serverport;
-import util.moveresult;
+import util.moveResult;
 import util.placeResult;
-import util.firewallinfo;
+import util.firewallInfo;
 
 using std::vector;
 
@@ -170,17 +170,21 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
 
     // move the link to the target position
     Position from = link->getPosition();
+    Cell& fromCell = getCell(from.row, from.col);
     Position cur = from;
     int steps = link->isBoosted() ? 2 : 1;
     for (int i = 0; i < steps; i++) {
         cur = computeTargetPosition(cur, dir);
         // check if the target position is inside the board
-        if (ownerId == 0 && cur.row == -1 || ownerId == 1 && cur.row == 8) {
+        // Player 0 moves off top edge (row -1) or Player 1 moves off bottom edge (row 8)
+        if ((ownerId == 0 && cur.row == 8) || (ownerId == 1 && cur.row == -1)) {
             res.moved = true;
             res.downloaded = true;
             res.downloadedLink = link;
-            fromCell.clearLink()
+            fromCell.clearLink();
             link->setOnBoard(false);
+            res.header.success = true;
+            res.header.msg = "";
             return res;
         }
             
@@ -201,7 +205,6 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
 
     // enemy server ports -> legal, but immediate download
     if (isInServerLoc(enemyId, to)) {
-        Cell& fromCell = getCell(from.row, from.col);
         if (fromCell.getLink() == link) {
             fromCell.clearLink();
         }
@@ -215,7 +218,6 @@ MoveResult Board::moveLink(Link* link, Direction dir) {
     }
 
     // check if the target cell is occupied, if so, resolve the battle
-    Cell& fromCell = getCell(from.row, from.col);
     Cell& toCell = getCell(to.row, to.col);
 
     Link* defender = toCell.getLink();
@@ -246,6 +248,15 @@ void Board::clearFirewall(Position pos) {
     if (!isInside(pos)) return;
     Cell& cell = getCell(pos.row, pos.col);
     cell.clearFirewall();
+}
+
+void Board::removeLink(Link* link) {
+    if (!link) return;
+    if (!link->isOnBoard()) return;
+    Position pos = link->getPosition();
+    Cell& cell = getCell(pos.row, pos.col);
+    cell.clearLink();
+    link->setOnBoard(false);
 }
 
 void Board::reset() {

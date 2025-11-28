@@ -5,9 +5,9 @@ import link;
 import util.position;
 import util.direction;
 import util.serverport;
-import util.moveresult;
+import util.moveResult;
 import util.placeResult;
-import util.firewallinfo;
+import util.firewallInfo;
 
 export class Board {
 private:
