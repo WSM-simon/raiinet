@@ -16,3 +16,6 @@ move a down
 # Try to use Ambush - should fail
 ability 1 a
 
+
+
+

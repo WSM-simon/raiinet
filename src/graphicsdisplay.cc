@@ -1,13 +1,13 @@
-module;
+module;  // Global module fragment - put all #include statements here
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <cstring>
-#include <string>
-#include <vector>
-#include <sstream>
 
-export module graphicsdisplay;
+export module graphicsdisplay;  // Now declare the module
 
+import <sstream>;
+import <string>;
+import <vector>;
+import <algorithm>;
 import observer;
 import game;
 import board;
@@ -68,6 +68,13 @@ export class GraphicsDisplay : public Observer {
         
         XMapWindow(display_, window_);
         XFlush(display_);
+        
+        // Wait for window to be mapped and ready (wait for Expose event)
+        // This ensures the window is ready before we try to draw
+        XEvent event;
+        // Process events until we get an Expose event (window is ready to draw)
+        // Use XWindowEvent to specifically wait for Expose on our window
+        XWindowEvent(display_, window_, ExposureMask, &event);
 
         gc_ = XCreateGC(display_, window_, 0, nullptr);
         XSetLineAttributes(display_, gc_, 2, LineSolid, CapRound, JoinRound);
@@ -154,6 +161,10 @@ export class GraphicsDisplay : public Observer {
         textColor_ = black_;
 
         initialized_ = true;
+        
+        // Do initial draw now that window is ready
+        draw();
+        XFlush(display_);
     }
 
     void cleanupX11() {

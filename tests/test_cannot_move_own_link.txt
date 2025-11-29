@@ -11,3 +11,6 @@ move b left
 board
 
 
+
+
+

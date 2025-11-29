@@ -44,13 +44,9 @@ $(TARGET): compile_modules
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET) $(LDFLAGS) -lX11
 
 compile_modules:
-	@echo "Compiling utility modules..."
 	$(CXX) $(CXXFLAGS) -c $(UTIL_SRCS)
-	@echo "Compiling base modules..."
 	$(CXX) $(CXXFLAGS) -c $(BASE_SRCS)
-	@echo "Compiling ability modules..."
 	$(CXX) $(CXXFLAGS) -c $(ABILITY_SRCS)
-	@echo "Compiling game and UI modules..."
 	$(CXX) $(CXXFLAGS) -c $(GAME_SRCS)
 
 clean:

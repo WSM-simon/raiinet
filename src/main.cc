@@ -72,7 +72,7 @@ string validateAbilities(const string& str) {
 // If extraFeatures is false, replaces H/E/A with defaults (L/F/D)
 vector<AbilityKind> parseAbilities(const string& str, bool extraFeatures = false) {
     vector<AbilityKind> abilities;
-    
+
     // Validate abilities
     string error = validateAbilities(str);
     string abilityStr = str;
@@ -218,15 +218,15 @@ int main(int argc, char* argv[]) {
         // Text mode - attach text display as observer
         game.attach(textDisplay.get());
     } 
-    if (useGraphics) {
+  if (useGraphics) {
         // Graphics mode
         graphicsDisplay = make_unique<GraphicsDisplay>(game);
-        game.attach(graphicsDisplay.get());
+    game.attach(graphicsDisplay.get());
         // TextDisplay is still created for console messages, but not attached as observer
         
         // Draw graphics display immediately after initialization
         game.notifyObservers();
-    }
+  }
 
     // Create and run controller (always needs TextDisplay for console output)
     Controller controller{game, *textDisplay, cin, cout};
