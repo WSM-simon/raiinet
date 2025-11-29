@@ -1,0 +1,15 @@
+# Test AmbushAbility - invisible link should not be shown to opponent
+# Player 1 uses Ambush on link 'a', Player 2 should not see it
+
+board
+
+# Player 1 uses Ambush on link a
+ability 1 a
+
+# Switch to Player 2's turn
+move a down
+
+# Now board should show Player 2's perspective
+board
+# Player 2 should NOT see 'a' on the board (should see '.' instead)
+# Player 2 should NOT see 'a' in Player 1's link list

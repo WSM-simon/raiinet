@@ -1,0 +1,15 @@
+# Test ExchangeAbility - basic position swap
+# Player 1 exchanges link 'a' with Player 2's link 'A'
+# Both links should swap positions on the board
+
+
+board
+
+# Player 1 uses Exchange: swap a and A
+ability 1 a A
+
+board
+# a should be at A's original position
+# A should be at a's original position
+# Links should still be on board
+

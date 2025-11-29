@@ -1,15 +1,15 @@
-export module exchangeability;
+export module ambushability;
 
 import ability;
-import game;
+import board;
 import player;
 import util.abilityParams;
 import util.abilityResult;
 
-export class ExchangeAbility : public Ability {
+export class AmbushAbility : public Ability {
 public:
-    ExchangeAbility();
-    AbilityResult apply(Game& game, Player& user, Player& opponent,
+    AmbushAbility();
+    AbilityResult apply(Board& board, Player& user, Player& opponent,
                         AbilityParams& userParams, 
                         AbilityParams& opponentParams) override;
 };

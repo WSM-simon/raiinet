@@ -6,4 +6,7 @@ export enum class AbilityKind {
     Scan,
     Polarize,
     LinkBoost,
+    Headshot,
+    Exchange,
+    Ambush,
 };

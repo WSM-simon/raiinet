@@ -24,10 +24,13 @@ ABILITY_SRCS = src/abilities/ability.cc src/abilities/ability-impl.cc \
                src/abilities/scanability.cc src/abilities/scanability-impl.cc \
                src/abilities/polarizeability.cc src/abilities/polarizeability-impl.cc \
                src/abilities/linkboostability.cc src/abilities/linkboostability-impl.cc \
+               src/additionalAbilities/headshotability.cc src/additionalAbilities/headshotability-impl.cc \
+               src/additionalAbilities/exchangeability.cc src/additionalAbilities/exchangeability-impl.cc \
+               src/additionalAbilities/ambushability.cc src/additionalAbilities/ambushability-impl.cc \
                src/util/abilityFactory.cc
 
 # Game and UI modules
-GAME_SRCS = src/game.cc src/game-impl.cc src/textdisplay.cc src/graphicsdisplay.cc src/graphicsdisplay-impl.cc src/controller.cc src/main.cc
+GAME_SRCS = src/game.cc src/game-impl.cc src/textdisplay.cc src/graphicsdisplay.cc src/controller.cc src/main.cc
 
 ALL_SRCS = $(UTIL_SRCS) $(BASE_SRCS) $(ABILITY_SRCS) $(GAME_SRCS)
 OBJS = $(notdir $(ALL_SRCS:.cc=.o))

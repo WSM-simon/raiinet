@@ -1,0 +1,17 @@
+# Test AmbushAbility - make link invisible
+# Player 1 uses Ambush on link 'a' to make it invisible
+
+
+board
+
+# Player 1 uses Ambush on link a
+ability 1 a
+
+board
+# Link a should now be invisible
+# It should still be on the board at same position
+
+# Verify it's still there by moving it
+move a down
+board
+

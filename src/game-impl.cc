@@ -35,7 +35,7 @@ using std::make_unique;
  * NOTE: This does NOT place links on the board yet.
  * Call Game::setupDefaultLinks() or a custom setup method from Controller.
  */
-Game::Game(bool useGraphics, bool extraFeatures)
+Game::Game(bool useGraphics, bool extraFeatures, bool enableTextFlip)
     : board_{}
     , players_{}
     , abilities_{}
@@ -44,6 +44,7 @@ Game::Game(bool useGraphics, bool extraFeatures)
     , gameOver_{false}
     , useGraphics_{useGraphics}
     , extraFeatures_{extraFeatures}
+    , enableTextFlip_{enableTextFlip}
     , abilityUsedThisTurn_{false} {}
 
 Ability* Game::getAbility(int playerIdx, int abilityIdx) {
@@ -171,7 +172,7 @@ MoveResult Game::moveLink(char linkId, Direction dir) {
  * 5. If ability caused download(s), AbilityResult should reflect that
  * 6. Check win condition, notify observers
  */
-AbilityResult Game::useAbility(int abilityIndex, AbilityParams& params) {
+AbilityResult Game::useAbility(int abilityIndex, AbilityParams& userParams, AbilityParams& opponentParams) {
     AbilityResult result;
 
     if (isGameOver()) {
@@ -203,10 +204,7 @@ AbilityResult Game::useAbility(int abilityIndex, AbilityParams& params) {
         return result;
     }
 
-    // Some abilities need separate params for user/opponent; you can adapt as needed.
-    AbilityParams userParams = params;
-    AbilityParams opponentParams = params;
-
+    // Params are already separated for user and opponent by the controller
     result = ability->apply(board_, currentPlayer, opponent, userParams, opponentParams);
 
     if (result.header.success && result.used) {

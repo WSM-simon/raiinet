@@ -1,0 +1,26 @@
+# Test HeadshotAbility - downloading data link
+# Player 1 uses Headshot to download Player 2's data link
+
+
+board
+
+# Move to middle to get links closer
+move a down
+move a down
+move a down
+move a down
+
+move E up
+move E up
+move E up
+move E up
+
+board
+
+# Use Headshot: a (V1) attacks E (D1) - strength 1 >= 1, should download
+ability 1 a E
+
+board
+# E should be removed from board
+# P1 should have 1D downloaded (data link)
+

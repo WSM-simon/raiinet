@@ -7,6 +7,7 @@ import <string>;
 
 import game;
 import textdisplay;
+import ability;
 import util.direction;
 import util.abilityParams;
 import util.moveResult;
@@ -46,13 +47,13 @@ export class Controller {
         return c;
     }
 
-    // Flip direction for Player 2 (only when extraFeatures enabled, since board is flipped 180°)
+    // Flip direction for Player 2 (only when textFlip enabled, since board is flipped 180°)
     Direction adjustDirection(Direction dir, int playerId) {
-        // Only flip if extraFeatures is enabled AND it's Player 2
-        if (!game_.hasExtraFeatures() || playerId == 1) {
+        // Only flip if textFlip is enabled AND it's Player 2
+        if (!game_.hasTextFlip() || playerId == 1) {
             return dir;  // No flip
         }
-        // Player 2 with extraFeatures: flip directions (board is rotated 180°)
+        // Player 2 with textFlip: flip directions (board is rotated 180°)
         switch (dir) {
             case Direction::Up:    return Direction::Down;
             case Direction::Down:  return Direction::Up;
@@ -89,33 +90,66 @@ export class Controller {
     }
 
     void processAbility(int abilityIdx, const string& params) {
-        AbilityParams abilityParams;
-        abilityParams.targetLinkId = '\0';
-        abilityParams.targetPos = {-1, -1};
+        AbilityParams userParams;
+        AbilityParams opponentParams;
+        userParams.targetLinkId = '\0';
+        userParams.targetPos = {-1, -1};
+        opponentParams.targetLinkId = '\0';
+        opponentParams.targetPos = {-1, -1};
 
         // Parse ability parameters based on ability type
-        // Some abilities need a link ID (Scan, Download, Polarize, LinkBoost)
+        // Some abilities need a link ID (Scan, Download, Polarize, LinkBoost, Ambush)
         // Some need a position (Firewall)
+        // Some need two link IDs (Headshot, Exchange)
         if (!params.empty()) {
             istringstream iss(params);
+            string param1, param2;
+            iss >> param1 >> param2;
             
-            // First try to parse as link ID (single character)
-            if (params.length() == 1 && ((params[0] >= 'a' && params[0] <= 'h') || 
-                                          (params[0] >= 'A' && params[0] <= 'H'))) {
-                abilityParams.targetLinkId = params[0];
+            // Check if this is Headshot or Exchange (need two link IDs)
+            Ability* ability = game_.getAbility(game_.getCurrentPlayerIndex(), abilityIdx - 1);
+            bool needsTwoLinks = false;
+            if (ability) {
+                char code = ability->getCode();
+                if (code == 'H' || code == 'E') {
+                    needsTwoLinks = true;
+                }
+            }
+            
+            if (needsTwoLinks && !param2.empty()) {
+                // Two link IDs: first is user's, second is opponent's
+                if ((param1[0] >= 'a' && param1[0] <= 'h') || 
+                    (param1[0] >= 'A' && param1[0] <= 'H')) {
+                    userParams.targetLinkId = param1[0];
+                }
+                if ((param2[0] >= 'a' && param2[0] <= 'h') || 
+                    (param2[0] >= 'A' && param2[0] <= 'H')) {
+                    opponentParams.targetLinkId = param2[0];
+                }
             } else {
-                // Try to parse as position (row col)
-                int row, col;
-                if (iss >> row >> col) {
-                    abilityParams.targetPos = {row, col};
+                // Single parameter: could be link ID or position
+                if (params.length() == 1 && ((params[0] >= 'a' && params[0] <= 'h') || 
+                                              (params[0] >= 'A' && params[0] <= 'H'))) {
+                    userParams.targetLinkId = params[0];
+                    opponentParams.targetLinkId = params[0];  // Same for most abilities
                 } else {
-                    // Could be a link ID followed by nothing
-                    abilityParams.targetLinkId = params[0];
+                    // Try to parse as position (row col)
+                    int row, col;
+                    iss.clear();
+                    iss.str(params);
+                    if (iss >> row >> col) {
+                        userParams.targetPos = {row, col};
+                        opponentParams.targetPos = {row, col};
+                    } else if (!params.empty()) {
+                        // Could be a link ID
+                        userParams.targetLinkId = params[0];
+                        opponentParams.targetLinkId = params[0];
+                    }
                 }
             }
         }
 
-        AbilityResult result = game_.useAbility(abilityIdx - 1, abilityParams);  // 1-indexed to 0-indexed
+        AbilityResult result = game_.useAbility(abilityIdx - 1, userParams, opponentParams);  // 1-indexed to 0-indexed
 
         if (!result.header.success) {
             out_ << "Ability failed: " << result.header.msg << "\n";

@@ -1,9 +1,8 @@
 module exchangeability;
 
 import ability;
-import game;
-import player;
 import board;
+import player;
 import cell;
 import link;
 import util.abilityParams;
@@ -13,7 +12,7 @@ import util.position;
 
 ExchangeAbility::ExchangeAbility() : Ability("Exchange", 'E') {}
 
-AbilityResult ExchangeAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult ExchangeAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
@@ -37,7 +36,6 @@ AbilityResult ExchangeAbility::apply(Game& game, Player& user, Player& opponent,
     Position userPos = userLink->getPosition();
     Position opponentPos = opponentLink->getPosition();
 
-    Board& board = game.getBoard();
     Cell& userCell = board.getCell(userPos.row, userPos.col);
     Cell& opponentCell = board.getCell(opponentPos.row, opponentPos.col);
 
@@ -50,5 +48,7 @@ AbilityResult ExchangeAbility::apply(Game& game, Player& user, Player& opponent,
 
     markUsed();
     res.used = true;
+    res.header.success = true;
+    res.header.msg = "";
     return res;
 }

@@ -95,48 +95,64 @@ public:
 
         // Print links info
         // Show actual types for own links, ? for unrevealed opponent links
+        // Hide invisible links from opponent
         vector<Link>& links = player.getLinks();
-        // First 4 links
+        
+        // Build first line - only show visible links to opponent
+        bool first1 = true;
         for (int i = 0; i < 4 && i < (int)links.size(); ++i) {
-            if (i > 0) out_ << " ";
+            // If viewing opponent's link and it's invisible, skip it
+            if (playerId != viewingPlayer && !links[i].isVisible()) {
+                continue;
+            }
+            if (!first1) out_ << " ";
+            first1 = false;
             out_ << getLinkColor(links[i]) << links[i].getId() << ": " 
                  << getLinkInfo(links[i], viewingPlayer) << RESET();
         }
-        out_ << "\n";
-        // Next 4 links
+        if (!first1) out_ << "\n";
+        
+        // Build second line - only show visible links to opponent
+        bool first2 = true;
         for (int i = 4; i < 8 && i < (int)links.size(); ++i) {
-            if (i > 4) out_ << " ";
+            // If viewing opponent's link and it's invisible, skip it
+            if (playerId != viewingPlayer && !links[i].isVisible()) {
+                continue;
+            }
+            if (!first2) out_ << " ";
+            first2 = false;
             out_ << getLinkColor(links[i]) << links[i].getId() << ": " 
                  << getLinkInfo(links[i], viewingPlayer) << RESET();
         }
-        out_ << "\n";
+        if (!first2) out_ << "\n";
     }
 
     void printBoard(int viewingPlayer) {
         Board& board = game_.getBoard();
         
         // Determine who goes at top and bottom
-        // With extraFeatures: viewer at top, opponent at bottom
-        // Without extraFeatures: Player 1 always at top, Player 2 always at bottom
-        int topPlayer = extraFeatures_ ? viewingPlayer : 1;
-        int bottomPlayer = extraFeatures_ ? (3 - viewingPlayer) : 2;
+        // With textFlip: viewer at top, opponent at bottom
+        // Without textFlip: Player 1 always at top, Player 2 always at bottom
+        bool textFlip = game_.hasTextFlip();
+        int topPlayer = textFlip ? viewingPlayer : 1;
+        int bottomPlayer = textFlip ? (3 - viewingPlayer) : 2;
 
         // Print top player's info
         printPlayerInfo(topPlayer, viewingPlayer);
 
-        // Print board (flipped when Player 2 is viewing, only if extraFeatures enabled)
+        // Print board (flipped when Player 2 is viewing, only if textFlip enabled)
         out_ << "========\n";
         
-        // If extraFeatures: Player 1 sees rows 0->7, Player 2 sees rows 7->0 (flipped)
-        // Without extraFeatures: always show rows 0->7
-        bool shouldFlip = extraFeatures_ && (viewingPlayer == 2);
+        // If textFlip: Player 1 sees rows 0->7, Player 2 sees rows 7->0 (flipped)
+        // Without textFlip: always show rows 0->7
+        bool shouldFlip = game_.hasTextFlip() && (viewingPlayer == 2);
         int startRow = shouldFlip ? board.getRows() - 1 : 0;
         int endRow = shouldFlip ? -1 : board.getRows();
         int rowStep = shouldFlip ? -1 : 1;
         
         for (int r = startRow; r != endRow; r += rowStep) {
-            // If extraFeatures: Player 2 sees cols 7->0 (mirrored)
-            // Without extraFeatures: always show cols 0->7
+            // If textFlip: Player 2 sees cols 7->0 (mirrored)
+            // Without textFlip: always show cols 0->7
             int startCol = shouldFlip ? board.getCols() - 1 : 0;
             int endCol = shouldFlip ? -1 : board.getCols();
             int colStep = shouldFlip ? -1 : 1;
@@ -152,8 +168,14 @@ public:
                 
                 if (cell.hasLink()) {
                     Link* link = cell.getLink();
-                    // Links on board are always alive (green)
-                    out_ << GREEN() << link->getId() << RESET();
+                    int linkOwner = link->getOwnerId();
+                    // If link belongs to opponent and is invisible, don't show it
+                    if (linkOwner != viewingPlayer && !link->isVisible()) {
+                        out_ << '.';
+                    } else {
+                        // Links on board are always alive (green)
+                        out_ << GREEN() << link->getId() << RESET();
+                    }
                 } else if (isServerPort) {
                     out_ << 'S';
                 } else if (cell.hasFirewall()) {

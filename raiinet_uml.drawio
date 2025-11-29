@@ -1,0 +1,333 @@
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="21.0.0" etag="drawio-uml" type="device">
+  <diagram id="RAIInet-UML" name="RAIInet Class Diagram">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Utility Enums/Structs -->
+        <mxCell id="util-group" value="Utility Types" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="280" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="direction" value="Direction (enum)&#xa;  Up&#xa;  Down&#xa;  Left&#xa;  Right" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="util-group">
+          <mxGeometry y="30" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="linktype" value="LinkType (enum)&#xa;  Data&#xa;  Virus" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="util-group">
+          <mxGeometry y="80" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="abilitykind" value="AbilityKind (enum)&#xa;  Download, Firewall, Scan, Polarize, LinkBoost&#xa;  Headshot, Exchange, Ambush" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="util-group">
+          <mxGeometry y="120" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="position" value="Position&#xa;  +row: int&#xa;  +col: int&#xa;  +operator==()&#xa;  +operator!=()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="util-group">
+          <mxGeometry y="170" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="moveresult" value="MoveResult&#xa;  +header: ResultHeader&#xa;  +moved: bool&#xa;  +battle: bool&#xa;  +downloaded: bool&#xa;  +attacker: Link*&#xa;  +defender: Link*&#xa;  +downloadedLink: Link*&#xa;  +downloaderId: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="util-group">
+          <mxGeometry y="220" width="280" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Core Game Classes -->
+        <mxCell id="core-group" value="Core Game Classes" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="400" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="game" value="Game&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- board_: Board&#xa;- players_[3]: Player&#xa;- abilities_[3]: vector&lt;unique_ptr&lt;Ability&gt;&gt;&#xa;- currentPlayer_: int&#xa;- winnerId_: int&#xa;- gameOver_: bool&#xa;- useGraphics_: bool&#xa;- extraFeatures_: bool&#xa;- abilityUsedThisTurn_: bool&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Game(useGraphics, extraFeatures)&#xa;+ initializeGame(p1, p2)&#xa;+ getBoard(): Board&amp;&#xa;+ getPlayer(idx): Player&amp;&#xa;+ getCurrentPlayer(): Player&amp;&#xa;+ getCurrentPlayerIndex(): int&#xa;+ getAbility(playerIdx, abilityIdx): Ability*&#xa;+ moveLink(linkId, dir): MoveResult&#xa;+ useAbility(index, userParams, oppParams): AbilityResult&#xa;+ endTurn()&#xa;+ reset()&#xa;+ isGameOver(): bool&#xa;+ getWinnerId(): int&#xa;+ hasExtraFeatures(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="core-group">
+          <mxGeometry y="30" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="board" value="Board&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- ROWS_: static constexpr int = 8&#xa;- COLS_: static constexpr int = 8&#xa;- grid_[8][8]: Cell&#xa;- serverPorts_[2]: ServerPort&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Board()&#xa;+ getRows(): int&#xa;+ getCols(): int&#xa;+ isInside(pos): bool&#xa;+ getCell(r, c): Cell&amp;&#xa;+ placeLink(link, pos): PlaceResult&#xa;+ removeLink(link)&#xa;+ moveLink(link, dir): MoveResult&#xa;+ placeFirewall(pos, ownerId)&#xa;+ clearFirewall(pos)&#xa;+ reset()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="core-group">
+          <mxGeometry y="120" width="400" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="player" value="Player&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- id_: int&#xa;- links_: vector&lt;Link&gt;&#xa;- downloadedData_: int&#xa;- downloadedViruses_: int&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Player(id, initialLinks)&#xa;+ getId(): int&#xa;+ getLinks(): vector&lt;Link&gt;&amp;&#xa;+ getLinkById(ch): Link*&#xa;+ getDownloadedData(): int&#xa;+ getDownloadedViruses(): int&#xa;+ incrementDownloadedData()&#xa;+ incrementDownloadedViruses()&#xa;+ victoryStatus(): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="core-group">
+          <mxGeometry y="190" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="link" value="Link&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- ownerId_: int&#xa;- id_: char&#xa;- type_: LinkType&#xa;- strength_: int&#xa;- pos_: Position&#xa;- onBoard_: bool&#xa;- revealedToOpponent_: bool&#xa;- boosted_: bool&#xa;- visible_: bool&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Link(ownerId, id, type, strength)&#xa;+ getOwnerId(): int&#xa;+ getId(): char&#xa;+ getType(): LinkType&#xa;+ isData(): bool&#xa;+ isVirus(): bool&#xa;+ getStrength(): int&#xa;+ getPosition(): Position&#xa;+ setPosition(p)&#xa;+ isOnBoard(): bool&#xa;+ setOnBoard(v)&#xa;+ isRevealedToOpponent(): bool&#xa;+ setRevealedToOpponent(v)&#xa;+ isBoosted(): bool&#xa;+ setBoosted(v)&#xa;+ isVisible(): bool&#xa;+ setVisible(v)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="core-group">
+          <mxGeometry y="240" width="400" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Cell -->
+        <mxCell id="cell" value="Cell&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- link_: Link* (non-owning)&#xa;- firewall_: FirewallInfo&#xa;- hasFirewall_: bool&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ hasLink(): bool&#xa;+ getLink(): Link*&#xa;+ setLink(ln)&#xa;+ clearLink()&#xa;+ hasFirewall(): bool&#xa;+ getFirewall(): FirewallInfo*&#xa;+ setFirewall(ownerId)&#xa;+ clearFirewall()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="480" y="460" width="260" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Observer Pattern -->
+        <mxCell id="observer-group" value="Observer Pattern" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="780" y="40" width="360" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="subject" value="Subject (abstract)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;# observers: vector&lt;Observer*&gt;&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ ~Subject()&#xa;+ attach(o: Observer*)&#xa;+ detach(o: Observer*)&#xa;+ notifyObservers()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="observer-group">
+          <mxGeometry y="30" width="360" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="observer" value="Observer (abstract)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ ~Observer()&#xa;+ notify(): void (pure virtual)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="observer-group">
+          <mxGeometry y="90" width="360" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="textdisplay" value="TextDisplay&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- game_: Game&amp;&#xa;- out_: ostream&amp;&#xa;- extraFeatures_: bool&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ TextDisplay(game, out, extraFeatures)&#xa;+ notify(): void (override)&#xa;+ printBoard(viewingPlayer)&#xa;+ printPlayerInfo(playerId, viewingPlayer)&#xa;+ printAbilities(playerIdx)&#xa;+ printSplitLine()&#xa;+ printWinner(winnerId)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="observer-group">
+          <mxGeometry y="130" width="360" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- GraphicsDisplay -->
+        <mxCell id="graphicsdisplay" value="GraphicsDisplay&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- game_: Game&amp;&#xa;- display_: Display*&#xa;- window_: Window&#xa;- gc_: GC&#xa;- width_: int = 800&#xa;- height_: int = 800&#xa;+ Colors: black_, white_, p1Color_, p2Color_, etc.&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ GraphicsDisplay(game)&#xa;+ notify(): void (override)&#xa;+ draw()&#xa;+ drawPlayerInfo(playerId, player, x, y)&#xa;+ handleEvents()&#xa;+ processEvents()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="140" width="360" height="90" as="geometry" />
+        </mxCell>
+        
+        <!-- Controller -->
+        <mxCell id="controller" value="Controller&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- game_: Game&amp;&#xa;- display_: TextDisplay&amp;&#xa;- in_: istream&amp;&#xa;- out_: ostream&amp;&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Controller(game, display, in, out)&#xa;+ run()&#xa;+ processCommand(line)&#xa;+ processMove(linkId, dir)&#xa;+ processAbility(abilityIdx, params)&#xa;+ processSequence(filename)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="40" width="360" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Ability Hierarchy -->
+        <mxCell id="ability-group" value="Ability Hierarchy" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="780" y="280" width="360" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="ability-base" value="Ability (abstract)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;- name: string&#xa;- code: char&#xa;- used: bool&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ Ability(name, code)&#xa;+ getName(): string&#xa;+ getCode(): char&#xa;+ isUsed(): bool&#xa;+ markUsed()&#xa;+ apply(board, user, opponent, userParams, oppParams): AbilityResult (pure virtual)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="30" width="360" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="download-ability" value="DownloadAbility&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ DownloadAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="90" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="firewall-ability" value="FirewallAbility&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ FirewallAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="120" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="scan-ability" value="ScanAbility&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ ScanAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="150" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="polarize-ability" value="PolarizeAbility&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ PolarizeAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="180" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="linkboost-ability" value="LinkboostAbility&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ LinkboostAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;" vertex="1" parent="ability-group">
+          <mxGeometry y="210" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="headshot-ability" value="HeadshotAbility (Extra)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ HeadshotAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="ability-group">
+          <mxGeometry y="240" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="exchange-ability" value="ExchangeAbility (Extra)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ ExchangeAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="ability-group">
+          <mxGeometry y="270" width="360" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ambush-ability" value="AmbushAbility (Extra)&#xa;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&#xa;+ AmbushAbility()&#xa;+ apply(...): AbilityResult (override)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontStyle=0;fontSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="ability-group">
+          <mxGeometry y="300" width="360" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- AbilityFactory -->
+        <mxCell id="factory" value="makeAbility(kind: AbilityKind)&#xa;: unique_ptr&lt;Ability&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="320" width="240" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Relationships -->
+        <!-- Game extends Subject -->
+        <mxCell id="game-extends-subject" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="game" target="subject">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="240" y="600" as="sourcePoint" />
+            <mxPoint x="400" y="800" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="320" />
+              <mxPoint x="960" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Game contains Board -->
+        <mxCell id="game-has-board" value="1" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=1;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="game" target="board">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="380" as="sourcePoint" />
+            <mxPoint x="440" y="505" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Game contains Players -->
+        <mxCell id="game-has-players" value="2" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=1;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="game" target="player">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="400" as="sourcePoint" />
+            <mxPoint x="440" y="565" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Game has Abilities -->
+        <mxCell id="game-has-abilities" value="*" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=1;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="game" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="420" as="sourcePoint" />
+            <mxPoint x="780" y="350" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="600" y="420" />
+              <mxPoint x="600" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Player contains Links -->
+        <mxCell id="player-has-links" value="8" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=1;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="player" target="link">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="570" as="sourcePoint" />
+            <mxPoint x="440" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Board contains Cells -->
+        <mxCell id="board-has-cells" value="8x8" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=1;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="board" target="cell">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="440" y="505" as="sourcePoint" />
+            <mxPoint x="480" y="505" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Cell references Link -->
+        <mxCell id="cell-ref-link" value="references" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="cell" target="link">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="480" y="505" as="sourcePoint" />
+            <mxPoint x="440" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- TextDisplay extends Observer -->
+        <mxCell id="textdisplay-extends" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="textdisplay" target="observer">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="240" as="sourcePoint" />
+            <mxPoint x="960" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- GraphicsDisplay extends Observer -->
+        <mxCell id="graphics-extends" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="graphicsdisplay" target="observer">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1360" y="140" as="sourcePoint" />
+            <mxPoint x="960" y="130" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1360" y="100" />
+              <mxPoint x="960" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- TextDisplay uses Game -->
+        <mxCell id="textdisplay-uses-game" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="textdisplay" target="game">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="780" y="205" as="sourcePoint" />
+            <mxPoint x="440" y="370" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="700" y="205" />
+              <mxPoint x="700" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- GraphicsDisplay uses Game -->
+        <mxCell id="graphics-uses-game" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="graphicsdisplay" target="game">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1180" y="185" as="sourcePoint" />
+            <mxPoint x="440" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1100" y="185" />
+              <mxPoint x="1100" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Controller uses Game and TextDisplay -->
+        <mxCell id="controller-uses-game" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="controller" target="game">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1180" y="80" as="sourcePoint" />
+            <mxPoint x="440" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1100" y="80" />
+              <mxPoint x="1100" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="controller-uses-display" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="controller" target="textdisplay">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1360" y="120" as="sourcePoint" />
+            <mxPoint x="960" y="200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1360" y="140" />
+              <mxPoint x="960" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Ability inheritance -->
+        <mxCell id="download-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="download-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="120" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="firewall-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="firewall-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="150" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="scan-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="scan-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="180" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="polarize-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="polarize-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="210" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="linkboost-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="linkboost-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="240" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="headshot-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="headshot-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="270" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="exchange-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="exchange-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="300" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ambush-inherits" value="" style="endArrow=block;endSize=16;endFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;startArrow=diamond;startFill=0;startSize=12;exitPerimeter=0;" edge="1" parent="1" source="ambush-ability" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="960" y="330" as="sourcePoint" />
+            <mxPoint x="960" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Factory creates abilities -->
+        <mxCell id="factory-creates" value="creates" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="factory" target="ability-base">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1180" y="340" as="sourcePoint" />
+            <mxPoint x="1140" y="370" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1100" y="340" />
+              <mxPoint x="1100" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Board uses Position, Direction, etc -->
+        <mxCell id="board-uses-position" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="board" target="position">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="40" y="505" as="sourcePoint" />
+            <mxPoint x="320" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="20" y="505" />
+              <mxPoint x="20" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Link uses Position and LinkType -->
+        <mxCell id="link-uses-position" value="uses" style="endArrow=open;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;dashed=1;startArrow=none;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="link" target="position">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="40" y="600" as="sourcePoint" />
+            <mxPoint x="320" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="20" y="600" />
+              <mxPoint x="20" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

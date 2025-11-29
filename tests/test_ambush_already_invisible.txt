@@ -1,0 +1,14 @@
+# Test AmbushAbility - cannot use on already invisible link
+# Try to use Ambush twice on the same link
+
+
+board
+
+# First Ambush should succeed
+ability 1 a
+
+# Second Ambush on same link should fail
+ability 1 a
+
+board
+

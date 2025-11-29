@@ -1,21 +1,20 @@
 module ambushability;
 
 import ability;
-import game;
+import board;
 import player;
 import link;
-import util.linkType;
 import util.abilityParams;
 import util.abilityResult;
 
 
 AmbushAbility::AmbushAbility() : Ability("Ambush", 'A') {}
 
-AbilityResult AmbushAbility::apply(Game& game, Player& user, Player& opponent,
+AbilityResult AmbushAbility::apply(Board& board, Player& user, Player& opponent,
                     AbilityParams& userParams, 
                     AbilityParams& opponentParams) {
 
-    (void)game;
+    (void)board;
     (void)opponent;
     (void)opponentParams; // Don't need these for AmbushAbility
 
@@ -45,6 +44,8 @@ AbilityResult AmbushAbility::apply(Game& game, Player& user, Player& opponent,
 
     markUsed();
     res.used = true;
+    res.header.success = true;
+    res.header.msg = "";
     return res;
 }
 

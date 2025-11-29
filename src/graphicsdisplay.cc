@@ -223,12 +223,12 @@ public:
 
         // Board cell size
         int cellSize = 60;
-        int boardStartX = 100;
+        int boardStartX = 250;
         int boardStartY = 150;
         
         // Draw Player 1 info at top
         Player& p1 = game_.getPlayer(1);
-        drawPlayerInfo(1, p1, 50, 20);
+        drawPlayerInfo(1, p1, 50, 220);
         
         // Draw board (8x8 grid)
         // Player 1 is at top (row 0), Player 2 at bottom (row 7)
@@ -266,32 +266,40 @@ public:
                 // Draw link if present
                 if (cell.hasLink()) {
                     Link* link = cell.getLink();
-                    unsigned long linkColor = getLinkColor(link);
+                    int linkOwner = link->getOwnerId();
+                    int viewingPlayer = game_.getCurrentPlayerIndex();
                     
-                    // Draw link as filled circle
-                    XSetForeground(display_, gc_, linkColor);
-                    XFillArc(display_, window_, gc_,
-                            x + 10, y + 10, cellSize - 20, cellSize - 20,
-                            0, 360 * 64);
-                    
-                    // Draw link ID character in white
-                    string linkId(1, link->getId());
-                    XSetForeground(display_, gc_, white_);
-                    int textX = x + cellSize/2 - 5;
-                    int textY = y + cellSize/2 + 5;
-                    XDrawString(display_, window_, gc_, textX, textY, linkId.c_str(), 1);
+                    // If link belongs to opponent and is invisible, don't show it
+                    if (linkOwner != viewingPlayer && !link->isVisible()) {
+                        // Don't draw the link - it's invisible to the opponent
+                    } else {
+                        unsigned long linkColor = getLinkColor(link);
+                        
+                        // Draw link as filled circle
+                        XSetForeground(display_, gc_, linkColor);
+                        XFillArc(display_, window_, gc_,
+                                x + 10, y + 10, cellSize - 20, cellSize - 20,
+                                0, 360 * 64);
+                        
+                        // Draw link ID character in white
+                        string linkId(1, link->getId());
+                        XSetForeground(display_, gc_, white_);
+                        int textX = x + cellSize/2 - 4;
+                        int textY = y + cellSize/2 + 5;
+                        XDrawString(display_, window_, gc_, textX, textY, linkId.c_str(), 1);
+                    }
                 }
             }
         }
         
         // Draw Player 2 info at bottom
         Player& p2 = game_.getPlayer(2);
-        drawPlayerInfo(2, p2, 50, boardStartY + 8 * cellSize + 30);
+        drawPlayerInfo(2, p2, 50, boardStartY + 8 * cellSize - 170);
         
         // Draw current player indicator
         int currentPlayer = game_.getCurrentPlayerIndex();
         string currentText = "Current Player: " + std::to_string(currentPlayer);
-        drawText(50, height_ - 30, currentText, textColor_);
+        drawText(450, 85, currentText, textColor_);
     }
 
     void drawPlayerInfo(int playerId, Player& player, int x, int y) {
@@ -320,11 +328,16 @@ public:
         string linksLine2 = "";
         
         for (int i = 0; i < 4 && i < (int)links.size(); ++i) {
-            if (i > 0) linksLine1 += " ";
+            // If viewing opponent's link and it's invisible, skip it
+            int currentPlayer = game_.getCurrentPlayerIndex();
+            if (playerId != currentPlayer && !links[i].isVisible()) {
+                continue;
+            }
+            
+            if (!linksLine1.empty()) linksLine1 += " ";
             char id = links[i].getId();
             string info = "?";
             
-            int currentPlayer = game_.getCurrentPlayerIndex();
             if (playerId == currentPlayer || links[i].isRevealedToOpponent()) {
                 char type = links[i].isData() ? 'D' : 'V';
                 info = string(1, type) + std::to_string(links[i].getStrength());
@@ -334,11 +347,16 @@ public:
         }
         
         for (int i = 4; i < 8 && i < (int)links.size(); ++i) {
-            if (i > 4) linksLine2 += " ";
+            // If viewing opponent's link and it's invisible, skip it
+            int currentPlayer = game_.getCurrentPlayerIndex();
+            if (playerId != currentPlayer && !links[i].isVisible()) {
+                continue;
+            }
+            
+            if (!linksLine2.empty()) linksLine2 += " ";
             char id = links[i].getId();
             string info = "?";
             
-            int currentPlayer = game_.getCurrentPlayerIndex();
             if (playerId == currentPlayer || links[i].isRevealedToOpponent()) {
                 char type = links[i].isData() ? 'D' : 'V';
                 info = string(1, type) + std::to_string(links[i].getStrength());

@@ -1,0 +1,24 @@
+# Test ExchangeAbility - exchange links in middle of board
+# Move links to middle, then exchange them
+
+
+# Move links to middle positions
+move a down
+move a down
+move a down
+move a down
+
+move A up
+move A up
+move A up
+move A up
+
+board
+
+# Now exchange them
+ability 1 a A
+
+board
+# Positions should be swapped
+# Both links should remain on board
+

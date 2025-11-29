@@ -1,0 +1,19 @@
+# Test AmbushAbility - verify invisible link is hidden from opponent
+# Player 1 uses Ambush on link 'a' at position (0,0)
+# Then we switch to Player 2 and check the board
+
+# Initial state
+board
+
+# Player 1 uses Ambush on link a (at position 0,0)
+ability 1 a
+
+# Switch to Player 2's turn by making a move
+move a down
+
+# Now check Player 2's view
+board
+# Expected: 
+# - Position (0,0) should show '.' not 'a' (link is invisible)
+# - Player 1's link list should NOT include 'a' (it's invisible)
+

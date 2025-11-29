@@ -1,0 +1,18 @@
+# Test AmbushAbility - cannot use on link not on board
+
+
+board
+
+# Move link off board
+move a down
+move a down
+move a down
+move a down
+move a down
+move a down
+move a down
+move a down
+
+# Try to use Ambush - should fail
+ability 1 a
+

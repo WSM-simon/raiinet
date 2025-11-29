@@ -1,0 +1,15 @@
+# Test HeadshotAbility - attacker weaker (only reveals)
+# Player 1 uses Headshot with link 'a' (V1) to attack Player 2's link 'D' (D4)
+# Since attacker strength (1) < defender strength (4), should only reveal D
+
+
+board
+
+# Player 1 uses Headshot: a (strength 1) attacks D (strength 4)
+ability 1 a D
+
+board
+# D should still be on board (not downloaded)
+# D should be revealed (Player 1 can see D: D4)
+# P1 should have 0 downloads
+

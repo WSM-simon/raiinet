@@ -1,0 +1,21 @@
+# Test HeadshotAbility - invalid cases
+# Test error handling for invalid link IDs and off-board links
+
+
+board
+
+# Test: invalid link ID (doesn't exist)
+ability 1 a X
+
+# Test: attacker not on board
+move a down
+ability 1 a A
+
+# Test: defender not on board  
+move a up
+move A up
+ability 1 a A
+
+# Test: missing second link ID
+ability 1 a
+

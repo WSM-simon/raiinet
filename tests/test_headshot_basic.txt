@@ -1,0 +1,14 @@
+# Test HeadshotAbility - basic successful attack
+# Player 1 uses Headshot with link 'a' (V1) to attack Player 2's link 'A' (V1)
+# Since attacker strength (1) >= defender strength (1), should download A
+
+# Initial board state
+board
+
+# Player 1 uses Headshot: a attacks A
+ability 1 a A
+
+board
+# A should be removed from board
+# P1 should have 1V downloaded
+

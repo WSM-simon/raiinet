@@ -1,0 +1,14 @@
+# Test HeadshotAbility - attacker stronger
+# Player 1 uses Headshot with link 'd' (D4) to attack Player 2's link 'A' (V1)
+# Since attacker strength (4) >= defender strength (1), should download A
+
+
+board
+
+# Player 1 uses Headshot: d (strength 4) attacks A (strength 1)
+ability 1 d A
+
+board
+# A should be removed from board
+# P1 should have 1V downloaded
+

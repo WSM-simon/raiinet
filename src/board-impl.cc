@@ -94,6 +94,7 @@ bool Board::isInServerLoc(int playerId, Position pos) {
     return false;
 }
 
+
 void Board::resolveBattle(Link* attacker, Link* defender, Position targetPos, MoveResult& result) {
     if (!attacker || !defender) return;
 
@@ -115,6 +116,7 @@ void Board::resolveBattle(Link* attacker, Link* defender, Position targetPos, Mo
 
         defender->setOnBoard(false);
         defender->setRevealedToOpponent(true);
+        defender->setVisible(true);
 
         result.moved = true;
         result.downloaded = true;
@@ -125,6 +127,7 @@ void Board::resolveBattle(Link* attacker, Link* defender, Position targetPos, Mo
         fromCell.clearLink();
         attacker->setOnBoard(false);
         attacker->setRevealedToOpponent(true);
+        attacker->setVisible(true);
 
         result.moved = true;
         result.downloaded = true;
@@ -278,6 +281,8 @@ void Board::removeLink(Link* link) {
     Cell& cell = getCell(pos.row, pos.col);
     cell.clearLink();
     link->setOnBoard(false);
+    link->setRevealedToOpponent(true);
+    link->setVisible(true);
 }
 
 void Board::reset() {

@@ -36,7 +36,8 @@ export class Game : public Subject {
     int winnerId_ = -1;                                    // -1 = no winner yet, 1 or 2 = winner
     bool gameOver_ = false;
     bool useGraphics_ = true;
-    bool extraFeatures_ = false;                           // Extra features (colors, flip, split lines)
+    bool extraFeatures_ = false;                           // Extra features (colors, split lines)
+    bool enableTextFlip_ = false;                          // Enable board flipping in text display
     bool abilityUsedThisTurn_ = false;                     // Can only use 1 ability per turn
 
     void handleDownload(Link& link, int downloaderId);
@@ -45,11 +46,12 @@ export class Game : public Subject {
     void checkWinCondition();
 
 public:
-    Game(bool useGraphics = true, bool extraFeatures = false);
+    Game(bool useGraphics = true, bool extraFeatures = false, bool enableTextFlip = false);
 
     void initializeGame(PlayerSetup& p0, PlayerSetup& p1);
     
     bool hasExtraFeatures() const { return extraFeatures_; }
+    bool hasTextFlip() const { return enableTextFlip_; }
 
     Board& getBoard() { return board_; }
 
@@ -65,7 +67,7 @@ public:
 
     MoveResult moveLink(char linkId, Direction dir);
 
-    AbilityResult useAbility(int abilityIndex, AbilityParams& params);
+    AbilityResult useAbility(int abilityIndex, AbilityParams& userParams, AbilityParams& opponentParams);
 
     void endTurn();
 

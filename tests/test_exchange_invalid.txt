@@ -1,0 +1,20 @@
+# Test ExchangeAbility - invalid cases
+# Test error handling for invalid exchanges
+
+
+board
+
+# Test: invalid link ID
+ability 1 a X
+
+# Test: one link not on board
+move a down
+ability 1 a A
+
+# Test: both links not on board
+move A up
+ability 1 a A
+
+# Test: missing second link ID
+ability 1 a
+

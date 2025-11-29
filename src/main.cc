@@ -1,6 +1,7 @@
 import <iostream>;
 import <string>;
 import <vector>;
+import <memory>;
 
 import game;
 import textdisplay;
@@ -17,10 +18,13 @@ using std::vector;
 using std::cerr;
 using std::cout;
 using std::cin;
+using std::unique_ptr;
+using std::make_unique;
 
-// Check if a character is a valid ability (L, F, D, S, P)
+// Check if a character is a valid ability (L, F, D, S, P, H, E, A)
 bool isValidAbility(char c) {
-    return c == 'L' || c == 'F' || c == 'D' || c == 'S' || c == 'P';
+    return c == 'L' || c == 'F' || c == 'D' || c == 'S' || c == 'P' || 
+           c == 'H' || c == 'E' || c == 'A';
 }
 
 // Validate ability string:
@@ -37,12 +41,12 @@ string validateAbilities(const string& str) {
     // Check for unknown abilities
     for (char c : str) {
         if (!isValidAbility(c)) {
-            return string("Unknown ability: ") + c + ". Valid: L, F, D, S, P.";
+            return string("Unknown ability: ") + c + ". Valid: L, F, D, S, P, H, E, A.";
         }
     }
     
     // Check max 2 of same ability
-    int counts[5] = {0, 0, 0, 0, 0};  // L, F, D, S, P
+    int counts[8] = {0, 0, 0, 0, 0, 0, 0, 0};  // L, F, D, S, P, H, E, A
     for (char c : str) {
         switch (c) {
             case 'L': counts[0]++; break;
@@ -50,9 +54,12 @@ string validateAbilities(const string& str) {
             case 'D': counts[2]++; break;
             case 'S': counts[3]++; break;
             case 'P': counts[4]++; break;
+            case 'H': counts[5]++; break;
+            case 'E': counts[6]++; break;
+            case 'A': counts[7]++; break;
         }
     }
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 8; ++i) {
         if (counts[i] > 2) {
             return "Cannot have more than 2 of the same ability.";
         }
@@ -62,7 +69,8 @@ string validateAbilities(const string& str) {
 }
 
 // Parse ability string (e.g., "LFDSP") into AbilityKind vector
-vector<AbilityKind> parseAbilities(const string& str) {
+// If extraFeatures is false, replaces H/E/A with defaults (L/F/D)
+vector<AbilityKind> parseAbilities(const string& str, bool extraFeatures = false) {
     vector<AbilityKind> abilities;
     
     // Validate abilities
@@ -73,6 +81,16 @@ vector<AbilityKind> parseAbilities(const string& str) {
         abilityStr = "LFDSP";
     }
     
+    // If extraFeatures disabled, replace H/E/A with defaults
+    if (!extraFeatures) {
+        if (abilityStr.find('H') != string::npos || 
+            abilityStr.find('E') != string::npos || 
+            abilityStr.find('A') != string::npos) {
+            cerr << "Error: Additional abilities (H/E/A) require -enableExtraFeature. Replaced with defaults.\n";
+            abilityStr = "LFDSP";
+        }
+    }
+    
     for (char c : abilityStr) {
         switch (c) {
             case 'L': abilities.push_back(AbilityKind::LinkBoost); break;
@@ -80,6 +98,9 @@ vector<AbilityKind> parseAbilities(const string& str) {
             case 'D': abilities.push_back(AbilityKind::Download); break;
             case 'S': abilities.push_back(AbilityKind::Scan); break;
             case 'P': abilities.push_back(AbilityKind::Polarize); break;
+            case 'H': abilities.push_back(AbilityKind::Headshot); break;
+            case 'E': abilities.push_back(AbilityKind::Exchange); break;
+            case 'A': abilities.push_back(AbilityKind::Ambush); break;
             default: break;  // Already validated, won't happen
         }
     }
@@ -147,6 +168,7 @@ int main(int argc, char* argv[]) {
     bool useGraphics = true;  // Default to graphics mode
     bool useText = true;     // Use text is default to true
     bool extraFeatures = false;
+    bool enableTextFlip = false;
 
     // Parse command-line arguments
     for (int i = 1; i < argc; ++i) {
@@ -164,51 +186,53 @@ int main(int argc, char* argv[]) {
             useGraphics = false;
         } else if (arg == "-enableExtraFeature") {
             extraFeatures = true;
+        } else if (arg == "-enableTextFlip") {
+            enableTextFlip = true;
         }
     }
 
     // Create game
-    Game game{useGraphics, extraFeatures};
+    Game game{useGraphics, extraFeatures, enableTextFlip};
 
     // Set up player 1
     PlayerSetup p1;
     p1.linkSetups = parseLinks(link1, 1);
     setDefaultPositions(p1.linkSetups, 1);
-    p1.abilities = parseAbilities(ability1);
+    p1.abilities = parseAbilities(ability1, extraFeatures);
 
     // Set up player 2
     PlayerSetup p2;
     p2.linkSetups = parseLinks(link2, 2);
     setDefaultPositions(p2.linkSetups, 2);
-    p2.abilities = parseAbilities(ability2);
+    p2.abilities = parseAbilities(ability2, extraFeatures);
 
     // Initialize game
     game.initializeGame(p1, p2);
 
-    // Create displays
-    TextDisplay* textDisplay = nullptr;
-    GraphicsDisplay* graphicsDisplay = nullptr;
+    // Create displays using smart pointers
+    // TextDisplay is always needed for console messages, even in graphics mode
+    unique_ptr<TextDisplay> textDisplay = make_unique<TextDisplay>(game, cout, extraFeatures);
+    unique_ptr<GraphicsDisplay> graphicsDisplay;
 
     if (useText) {
-        // Text mode
-        textDisplay = new TextDisplay{game, cout, extraFeatures};
-        game.attach(textDisplay);
+        // Text mode - attach text display as observer
+        game.attach(textDisplay.get());
     } 
     if (useGraphics) {
         // Graphics mode
-        graphicsDisplay = new GraphicsDisplay{game};
-        game.attach(graphicsDisplay);
-        // Also create text display for console messages
-        textDisplay = new TextDisplay{game, cout, extraFeatures};
+        graphicsDisplay = make_unique<GraphicsDisplay>(game);
+        game.attach(graphicsDisplay.get());
+        // TextDisplay is still created for console messages, but not attached as observer
+        
+        // Draw graphics display immediately after initialization
+        game.notifyObservers();
     }
 
-    // Create and run controller
+    // Create and run controller (always needs TextDisplay for console output)
     Controller controller{game, *textDisplay, cin, cout};
     controller.run();
 
-    // Cleanup
-    if (graphicsDisplay) delete graphicsDisplay;
-    if (textDisplay) delete textDisplay;
+    // Smart pointers automatically clean up - no manual delete needed
 
     return 0;
 }
